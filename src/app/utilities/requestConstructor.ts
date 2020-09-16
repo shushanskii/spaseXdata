@@ -3,11 +3,11 @@ import { ApiRequestString } from 'app/types'
 const domain = 'https://api.spacexdata.com/v3'
 
 interface CommonQueryParams {
-  id: boolean
-  limit: number
-  offset: number
-  sort: string
-  order: 'asc' | 'desc'
+  id?: boolean
+  limit?: number
+  offset?: number
+  sort?: string
+  order?: 'asc' | 'desc'
 }
 
 export enum Methods {
@@ -25,15 +25,16 @@ export type History<T> = T extends Methods.HISTORY
     }
   : never
 
-export type Launches<T> = T extends Methods.HISTORY
+export type Launches<T> = T extends Methods.LAUNCHES
   ? {
-      url: {
-        start: string
-        end: string
-        flight_number: number
+      url?: {
+        [key: string]: string
       }
-      query: CommonQueryParams & {
-        rocket_id: string
+      query?: CommonQueryParams & {
+        start?: string
+        end?: string
+        flight_number?: number
+        rocket_id?: string
       }
     }
   : never
@@ -45,10 +46,10 @@ export const requestConstructor: ApiRequestString<
   const { url, query } = params
 
   return `${domain}/${method.concat(
-    Object.values(url)
+    Object.values(url || {})
       .map((value) => value)
       .join('/')
-  )}?${Object.entries(query)
+  )}?${Object.entries(query || {})
     .map(
       ([key, value]) =>
         `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`

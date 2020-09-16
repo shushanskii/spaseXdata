@@ -8,7 +8,6 @@ import { History } from 'components/pages/History'
 export const App = () => {
   return (
     <>
-      asdasd
       <GlobalStyle />
       <Switch>
         <Route path={'/history'} component={History} />

@@ -1,11 +1,44 @@
 import { call, put } from 'redux-saga/effects'
-import { LoadStart, Types } from 'store/reducers/history'
+import {
+  LoadError,
+  LoadStart,
+  LoadSuccess,
+  Types,
+} from 'store/reducers/launches'
+import { LaunchesActionUpdate } from 'actions/launches'
+import { request } from 'utilities/request'
+import { Methods, requestConstructor } from 'utilities/requestConstructor'
 
-export default function* updateHistory() {
-  yield put<LoadStart<Types.LOAD_START>>({
-    type: Types.LOAD_START,
-    payload: {
-      loading: true,
-    },
-  })
+const PAGE_LIMIT = 20
+
+export default function* updateLaunches({
+  payload: { page },
+}: LaunchesActionUpdate) {
+  yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
+
+  try {
+    const data = yield call(
+      request,
+      requestConstructor(Methods.LAUNCHES, {
+        query: {
+          limit: PAGE_LIMIT,
+          offset: page * PAGE_LIMIT,
+        },
+      })
+    )
+
+    yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
+      type: Types.LOAD_SUCCESS,
+      payload: {
+        data,
+      },
+    })
+  } catch (error) {
+    yield put<LoadError<Types.LOAD_ERROR>>({
+      type: Types.LOAD_ERROR,
+      payload: {
+        error,
+      },
+    })
+  }
 }

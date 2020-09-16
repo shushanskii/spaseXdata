@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { WIDTHS } from 'app/constants'
 
 export const Page = styled.div`
-  width: ${WIDTHS.DESKTOP};
+  width: ${WIDTHS.TABLET};
   height: 100%;
   padding: 5px;
 `

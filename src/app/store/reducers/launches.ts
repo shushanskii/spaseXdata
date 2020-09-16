@@ -1,21 +1,11 @@
-import { Reducer } from 'app/types'
-
-export type LoadStart<T> = T extends Types.LOAD_START
-  ? { type: T; payload: { loading: boolean } }
-  : never
+export type LoadStart<T> = T extends Types.LOAD_START ? { type: T } : never
 
 export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
-  ? {
-      type: T
-      payload: {
-        loading: boolean
-        data: any[]
-      }
-    }
+  ? { type: T; payload: { data: any[] } }
   : never
 
 export type LoadError<T> = T extends Types.LOAD_ERROR
-  ? { type: T; payload: { loading: boolean; error: string } }
+  ? { type: T; payload: { error: string } }
   : never
 
 export enum Types {
@@ -32,14 +22,8 @@ export interface State {
 
 const initialState: State = {
   loading: false,
+  data: [],
 }
-
-const update: Reducer<
-  State,
-  | LoadStart<Types.LOAD_START>
-  | LoadSuccess<Types.LOAD_SUCCESS>
-  | LoadError<Types.LOAD_ERROR>
-> = (state, { payload }) => ({ ...state, ...payload })
 
 export const reducer = (
   state = initialState,
@@ -48,7 +32,7 @@ export const reducer = (
     payload: {
       loading: boolean
       error?: string
-      data?: any[]
+      data: any[]
     }
   }
 ): State => {
@@ -58,15 +42,15 @@ export const reducer = (
 
   const {
     type,
-    payload: { loading, data, error },
+    payload: { data, error },
   } = action
   switch (type) {
     case Types.LOAD_START:
-      return update(state, { type, payload: { loading } })
+      return { ...state, loading: true }
     case Types.LOAD_SUCCESS:
-      return update(state, { type, payload: { loading, data } })
+      return { ...state, data: [...state.data, ...data], loading: false }
     case Types.LOAD_ERROR:
-      return update(state, { type, payload: { loading, error } })
+      return { ...state, error, loading: false }
     default:
       return state
   }

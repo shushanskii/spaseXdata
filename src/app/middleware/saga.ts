@@ -1,4 +1,4 @@
-import { all, takeEvery, delay, call } from 'redux-saga/effects'
+import { all, takeEvery } from 'redux-saga/effects'
 import { HistoryActionTypes, HistoryActionUpdate } from 'actions/history'
 import { LaunchesActionTypes, LaunchesActionUpdate } from 'actions/launches'
 import updateHistory from 'middleware/saga/updateHistory'

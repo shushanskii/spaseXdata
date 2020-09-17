@@ -6,6 +6,8 @@ import { DispatchType } from 'app/types'
 import { LaunchesActionTypes, LaunchesActionUpdate } from 'actions/launches'
 import { State } from 'store/rootReducer'
 import { State as HistoryState } from 'store/reducers/history'
+import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
+import { Title } from 'components/title/Title'
 
 export function History() {
   const dispatch = useDispatch<DispatchType<LaunchesActionUpdate>>()
@@ -17,7 +19,10 @@ export function History() {
 
   return (
     <Page>
-      <List loadData={loadData} store={store} />
+      <PageContentWrapper>
+        <Title title={'History'} />
+        <List loadData={loadData} store={store} />
+      </PageContentWrapper>
     </Page>
   )
 }

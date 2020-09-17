@@ -65,7 +65,7 @@ const Description = styled.span`
 const SubTitle = styled.span`
   font-weight: bold;
   margin: 0 6px;
-
+  color: ${colors.white};
   &:first-child {
     margin-left: 0;
   }
@@ -87,7 +87,7 @@ const MissionName = styled.div`
   font-style: normal;
   line-height: 1.23;
   letter-spacing: normal;
-  color: ${colors.white};
+  color: ${colors.clementine};
 `
 
 const Date = styled.div`
@@ -100,4 +100,5 @@ const Date = styled.div`
   letter-spacing: normal;
   color: ${colors.osloGray};
   margin-left: 26px;
+  color: ${colors.pigmentIndigo};
 `

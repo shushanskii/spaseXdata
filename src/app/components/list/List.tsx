@@ -54,10 +54,10 @@ export function List({ loadData, store }: Props) {
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 500px;
+  height: 600px;
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.04);
-  padding: 100px 40px 61px;
+  padding: 40px;
 `
 
 const Container = styled.div`

@@ -8,7 +8,7 @@
     "lint": "eslint --fix . --ext .ts,.tsx src",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "husky": {
     "hooks": {
@@ -70,6 +70,7 @@
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "jest-fetch-mock": "^3.0.3",
+    "json-loader": "^0.5.7",
     "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
     "react-is": "^16.13.1",

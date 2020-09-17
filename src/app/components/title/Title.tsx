@@ -2,12 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { colors } from 'app/constants'
 
-interface Props {
-  title: string
-}
-
-export function Title({ title }: Props) {
-  return <Container>{title}</Container>
+export function Title({ children }: React.PropsWithChildren<any>) {
+  return <Container>{children}</Container>
 }
 
 const Container = styled.div`

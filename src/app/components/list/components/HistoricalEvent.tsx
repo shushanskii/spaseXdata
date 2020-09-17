@@ -1,33 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Launch } from 'store/reducers/launches'
 import { colors } from 'app/constants'
+import { HistoricalEvent } from 'store/reducers/history'
 
 interface Props {
-  launch: Launch
+  item: HistoricalEvent
 }
 
-export function Item({
-  launch: {
-    mission_name,
-    launch_date_utc,
-    payloads: { nationality, manufacturer, payload_type },
+export function HistoricalEvent({
+  item: {
+    title,
+    details,
+    event_date_utc,
+    links: { reddit, article, wikipedia },
   },
 }: Props) {
-  const [, year, time] = /(.*)T(.*)\.(?:.*)Z/.exec(launch_date_utc)
+  const [, year, time] = /(.*)T(.*)Z/.exec(event_date_utc)
 
   return (
     <Container>
-      <Description>
-        <SubTitle>Payload types:</SubTitle>
-        {payload_type.join(', ')}
-        <SubTitle>Manufacturers:</SubTitle>
-        {manufacturer.join(', ')}
-        <SubTitle>Nationality:</SubTitle>
-        {nationality.join(', ')}
-      </Description>
+      <Details>
+        <SubTitle>Details:</SubTitle>
+        {details}
+      </Details>
       <Title>
-        <MissionName>{mission_name}</MissionName>
+        <Name>{title}</Name>
         <Date>
           {year} {time}
         </Date>
@@ -38,7 +35,7 @@ export function Item({
 
 const Container = styled.div`
   width: 100%;
-  height: 102px;
+  min-height: 102px;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   padding: 20px 16px;
   display: flex;
@@ -47,7 +44,7 @@ const Container = styled.div`
   align-items: flex-start;
 `
 
-const Description = styled.span`
+const Details = styled.div`
   width: 100%;
   font-family: Avenir-Roman, sans-serif;
   font-size: 14px;
@@ -57,9 +54,6 @@ const Description = styled.span`
   line-height: 1.43;
   letter-spacing: normal;
   color: ${colors.osloGray};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `
 
 const SubTitle = styled.span`
@@ -79,7 +73,7 @@ const Title = styled.div`
   align-items: flex-end;
 `
 
-const MissionName = styled.div`
+const Name = styled.div`
   font-family: Avenir, sans-serif;
   font-size: 26px;
   font-weight: 900;
@@ -98,7 +92,6 @@ const Date = styled.div`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${colors.osloGray};
   margin-left: 26px;
   color: ${colors.pigmentIndigo};
 `

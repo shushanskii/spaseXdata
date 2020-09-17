@@ -8,8 +8,7 @@ import {
 import { LaunchesActionUpdate } from 'actions/launches'
 import { request } from 'utilities/request'
 import { Methods, requestConstructor } from 'utilities/requestConstructor'
-
-const PAGE_LIMIT = 20
+import { LIST_PAGE_LIMIT } from 'app/constants'
 
 export default function* updateLaunches({
   payload: { page },
@@ -21,8 +20,8 @@ export default function* updateLaunches({
       request,
       requestConstructor(Methods.LAUNCHES, {
         query: {
-          limit: PAGE_LIMIT,
-          offset: page * PAGE_LIMIT,
+          limit: LIST_PAGE_LIMIT,
+          offset: page * LIST_PAGE_LIMIT,
         },
       })
     )

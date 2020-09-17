@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Item } from 'components/list/components/Item'
+import { Launch } from 'components/list/components/Launch'
+import { Launch as LaunchType } from 'store/reducers/launches'
+
+enum ItemsType {
+  LAUNCH = 'launch',
+}
 
 interface Props {
   loadData: (page: number) => void
@@ -9,14 +14,15 @@ interface Props {
     error?: string
     data?: any[]
   }
+  render: (props: { item: any; key: string | number }) => void
 }
 
-export function List({ loadData, store }: Props) {
+export function List({ loadData, store, render }: Props) {
   const { data, error, loading } = store
 
   const [page, setPage] = useState(0)
 
-  const spinner = useRef(null)
+  const marker = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(handlerObserver, {
@@ -25,8 +31,8 @@ export function List({ loadData, store }: Props) {
       threshold: 1.0,
     })
 
-    if (spinner.current) {
-      observer.observe(spinner.current)
+    if (marker.current) {
+      observer.observe(marker.current)
     }
   }, [])
 
@@ -43,10 +49,8 @@ export function List({ loadData, store }: Props) {
   return (
     <Wrapper>
       <Container>
-        {data?.map((item, index) => (
-          <Item launch={item} key={index} />
-        ))}
-        <Spinner ref={spinner}>SPINNER...</Spinner>
+        {data?.map((item, index) => render({ item, key: index }))}
+        <div ref={marker}>&nbsp;</div>
       </Container>
     </Wrapper>
   )
@@ -65,5 +69,3 @@ const Container = styled.div`
   height: 100%;
   overflow: auto;
 `
-
-const Spinner = styled.div``

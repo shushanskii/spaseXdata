@@ -1,5 +1,7 @@
 import { generateMedia } from 'styled-media-query'
 
+export const LIST_PAGE_LIMIT = 10
+
 export enum WIDTHS {
   DESKTOP = '1120px',
   TABLET = '640px',

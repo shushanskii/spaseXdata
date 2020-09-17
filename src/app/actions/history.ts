@@ -4,4 +4,7 @@ export enum HistoryActionTypes {
 
 export interface HistoryActionUpdate {
   type: HistoryActionTypes.UPDATE
+  payload: {
+    page: number
+  }
 }

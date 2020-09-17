@@ -9,9 +9,9 @@ export type LoadError<T> = T extends Types.LOAD_ERROR
   : never
 
 export enum Types {
-  LOAD_START = 'LOAD_START',
-  LOAD_SUCCESS = 'LOAD_SUCCESS',
-  LOAD_ERROR = 'LOAD_ERROR',
+  LOAD_START = 'LAUNCHES_LOAD_START',
+  LOAD_SUCCESS = 'LAUNCHES_LOAD_SUCCESS',
+  LOAD_ERROR = 'LAUNCHES_LOAD_ERROR',
 }
 
 export interface Launch {
@@ -27,7 +27,7 @@ export interface Launch {
 export interface State {
   loading: boolean
   error?: string
-  data?: Launch[]
+  data: Launch[]
 }
 
 const initialState: State = {

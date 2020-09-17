@@ -1,45 +1,45 @@
-import { Reducer } from 'app/types'
-
-export type LoadStart<T> = T extends Types.LOAD_START
-  ? { type: T; payload: { loading: boolean } }
-  : never
+export type LoadStart<T> = T extends Types.LOAD_START ? { type: T } : never
 
 export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
   ? {
       type: T
       payload: {
-        loading: boolean
         data: any[]
       }
     }
   : never
 
 export type LoadError<T> = T extends Types.LOAD_ERROR
-  ? { type: T; payload: { loading: boolean; error: string } }
+  ? { type: T; payload: { error: string } }
   : never
 
 export enum Types {
-  LOAD_START = 'LOAD_START',
-  LOAD_SUCCESS = 'LOAD_SUCCESS',
-  LOAD_ERROR = 'LOAD_ERROR',
+  LOAD_START = 'HISTORY_LOAD_START',
+  LOAD_SUCCESS = 'HISTORY_LOAD_SUCCESS',
+  LOAD_ERROR = 'HISTORY_LOAD_ERROR',
+}
+
+export interface HistoricalEvent {
+  title: string
+  event_date_utc: string
+  details: string
+  links: {
+    reddit: string | null
+    article: string
+    wikipedia: string
+  }
 }
 
 export interface State {
   loading: boolean
   error?: string
-  data?: any[]
+  data: HistoricalEvent[]
 }
 
 const initialState: State = {
   loading: false,
+  data: [],
 }
-
-const update: Reducer<
-  State,
-  | LoadStart<Types.LOAD_START>
-  | LoadSuccess<Types.LOAD_SUCCESS>
-  | LoadError<Types.LOAD_ERROR>
-> = (state, { payload }) => ({ ...state, ...payload })
 
 export const reducer = (
   state = initialState,
@@ -58,15 +58,15 @@ export const reducer = (
 
   const {
     type,
-    payload: { loading, data, error },
+    payload: { data, error },
   } = action
   switch (type) {
     case Types.LOAD_START:
-      return update(state, { type, payload: { loading } })
+      return { ...state, loading: true }
     case Types.LOAD_SUCCESS:
-      return update(state, { type, payload: { loading, data } })
+      return { ...state, data: [...state.data, ...data], loading: false }
     case Types.LOAD_ERROR:
-      return update(state, { type, payload: { loading, error } })
+      return { ...state, error, loading: false }
     default:
       return state
   }

@@ -8,6 +8,7 @@ import { State } from 'src/app/store/rootReducer'
 import { State as LaunchesState } from 'store/reducers/launches'
 import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
 import { Title } from 'components/title/Title'
+import { Launch } from 'components/list/components/Launch'
 
 export function Launches() {
   const dispatch = useDispatch<DispatchType<LaunchesActionUpdate>>()
@@ -22,7 +23,11 @@ export function Launches() {
     <Page>
       <PageContentWrapper>
         <Title title={'Launches'} />
-        <List loadData={loadData} store={store} />
+        <List
+          loadData={loadData}
+          store={store}
+          render={(props) => <Launch {...props} />}
+        />
       </PageContentWrapper>
     </Page>
   )

@@ -1,7 +1,7 @@
 export type LoadStart<T> = T extends Types.LOAD_START ? { type: T } : never
 
 export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
-  ? { type: T; payload: { data: any[] } }
+  ? { type: T; payload: { data: Launch[] } }
   : never
 
 export type LoadError<T> = T extends Types.LOAD_ERROR
@@ -14,10 +14,20 @@ export enum Types {
   LOAD_ERROR = 'LOAD_ERROR',
 }
 
+export interface Launch {
+  mission_name: string
+  launch_date_utc: string
+  payloads: {
+    nationality: string[]
+    manufacturer: string[]
+    payload_type: string[]
+  }
+}
+
 export interface State {
   loading: boolean
   error?: string
-  data?: any[]
+  data?: Launch[]
 }
 
 const initialState: State = {
@@ -32,7 +42,7 @@ export const reducer = (
     payload: {
       loading: boolean
       error?: string
-      data: any[]
+      data: Launch[]
     }
   }
 ): State => {

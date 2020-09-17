@@ -41,19 +41,28 @@ export function List({ loadData, store }: Props) {
   }, [page])
 
   return (
-    <Container>
-      {data?.map((item, index) => (
-        <Item id={index} key={index} />
-      ))}
-      <Spinner ref={spinner}>SPINNER...</Spinner>
-    </Container>
+    <Wrapper>
+      <Container>
+        {data?.map((item, index) => (
+          <Item launch={item} key={index} />
+        ))}
+        <Spinner ref={spinner}>SPINNER...</Spinner>
+      </Container>
+    </Wrapper>
   )
 }
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 500px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.04);
+  padding: 100px 40px 61px;
+`
+
 const Container = styled.div`
   width: 100%;
-  height: 100px;
-  border: 1px solid red;
+  height: 100%;
   overflow: auto;
 `
 

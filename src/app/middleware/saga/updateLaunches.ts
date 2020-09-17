@@ -30,7 +30,23 @@ export default function* updateLaunches({
     yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
       type: Types.LOAD_SUCCESS,
       payload: {
-        data,
+        data: data.map(
+          ({
+            mission_name,
+            launch_date_utc,
+            rocket: {
+              second_stage: { payloads },
+            },
+          }) => ({
+            mission_name,
+            launch_date_utc,
+            payloads: {
+              nationality: payloads.map(({ nationality }) => nationality),
+              manufacturer: payloads.map(({ manufacturer }) => manufacturer),
+              payload_type: payloads.map(({ payload_type }) => payload_type),
+            },
+          })
+        ),
       },
     })
   } catch (error) {

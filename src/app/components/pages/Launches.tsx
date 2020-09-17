@@ -6,6 +6,8 @@ import { DispatchType } from 'app/types'
 import { LaunchesActionTypes, LaunchesActionUpdate } from 'actions/launches'
 import { State } from 'src/app/store/rootReducer'
 import { State as LaunchesState } from 'store/reducers/launches'
+import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
+import { Title } from 'components/title/Title'
 
 export function Launches() {
   const dispatch = useDispatch<DispatchType<LaunchesActionUpdate>>()
@@ -18,7 +20,10 @@ export function Launches() {
 
   return (
     <Page>
-      <List loadData={loadData} store={store} />
+      <PageContentWrapper>
+        <Title title={'Launches'} />
+        <List loadData={loadData} store={store} />
+      </PageContentWrapper>
     </Page>
   )
 }

@@ -1,37 +1,32 @@
 import { createGlobalStyle } from 'styled-components'
-import { colors } from 'app/constants'
 
 export const GlobalStyle = createGlobalStyle`
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  html, body {
-    height: 100%;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
 
-  body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: white;
-    font-family: Open-Sans, Helvetica, Sans-Serif, sans-serif;
-    color: ${colors.osloGray};
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  margin: 0;
+  padding: 0;
+
+  font-family: sans-serif;
+
+  background-color: #0a0c0f;
+}
+
+input {
+  border: none;
+
+  &:focus {
+    outline: 0;
   }
-  
-  a {
-    color: inherit;
-    text-decoration: inherit;
-  
-    &:active, &:hover, &:visited {
-      color: inherit;
-      text-decoration: inherit;
-    }
-  }
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
 `

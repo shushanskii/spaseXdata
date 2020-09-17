@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from 'app/constants'
+import { colors, MEDIA } from 'app/constants'
 
 export const Container = styled.div`
   width: 100%;
@@ -36,9 +36,24 @@ export const SubTitle = styled.span`
 export const Title = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
+
+  ${MEDIA.greaterThan('desktop')`
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+  `}
+
+  ${MEDIA.between('tablet', 'desktop')`
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  `}
+    
+  ${MEDIA.lessThan('tablet')`
+     flex-direction: column;
+     justify-content: space-between;
+     align-items: flex-start;
+  `}
 `
 
 export const Name = styled.div`
@@ -60,6 +75,17 @@ export const Date = styled.div`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  margin-left: 26px;
   color: ${colors.white};
+
+  ${MEDIA.greaterThan('desktop')`
+    margin-left: 26px;
+  `}
+
+  ${MEDIA.between('tablet', 'desktop')`
+    margin-left: 0;
+  `}
+    
+  ${MEDIA.lessThan('tablet')`
+     margin-left: 0;
+  `}
 `

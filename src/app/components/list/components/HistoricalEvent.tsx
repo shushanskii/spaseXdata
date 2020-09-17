@@ -9,6 +9,7 @@ import {
   Description,
 } from 'components/list/components/components/Elements'
 import { HistoricalEventsLinks } from 'components/list/components/components/HistoricalEventsLinks'
+import styled from 'styled-components'
 
 interface Props {
   item: HistoricalEvent
@@ -27,11 +28,23 @@ export function HistoricalEvent({
       </Description>
       <Title>
         <Name>{title}</Name>
-        <Date>
-          {year} {time}
-        </Date>
-        <HistoricalEventsLinks links={links} />
+        <AdditionalInfo>
+          <Date>
+            {year} {time}
+          </Date>
+          <HistoricalEventsLinks
+            links={links}
+            event_date_utc={event_date_utc}
+          />
+        </AdditionalInfo>
       </Title>
     </Container>
   )
 }
+
+const AdditionalInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`

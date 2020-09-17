@@ -12,12 +12,13 @@ enum LinksResources {
 }
 
 interface Props {
+  event_date_utc: string
   links: {
     [key in LinksResources]: string
   }
 }
 
-export function HistoricalEventsLinks({ links }: Props) {
+export function HistoricalEventsLinks({ links, event_date_utc }: Props) {
   return (
     <Container>
       {Object.entries(links)
@@ -26,7 +27,7 @@ export function HistoricalEventsLinks({ links }: Props) {
           <Link
             resource={resources as LinksResources}
             link={link}
-            key={resources}
+            key={`${event_date_utc}.${resources}`}
           />
         ))}
     </Container>

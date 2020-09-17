@@ -45,27 +45,21 @@ export const reducer = (
   state = initialState,
   action: {
     type: Types
-    payload: {
-      loading: boolean
+    payload?: {
       error?: string
       data?: any[]
     }
   }
 ): State => {
-  if (!action.payload) {
-    return state
-  }
-
-  const {
-    type,
-    payload: { data, error },
-  } = action
+  const { type, payload } = action
   switch (type) {
     case Types.LOAD_START:
       return { ...state, loading: true }
     case Types.LOAD_SUCCESS:
+      const { data } = payload
       return { ...state, data: [...state.data, ...data], loading: false }
     case Types.LOAD_ERROR:
+      const { error } = payload
       return { ...state, error, loading: false }
     default:
       return state

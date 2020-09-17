@@ -39,8 +39,7 @@ export const reducer = (
   state = initialState,
   action: {
     type: Types
-    payload: {
-      loading: boolean
+    payload?: {
       error?: string
       data: Launch[]
     }

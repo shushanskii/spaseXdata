@@ -2,6 +2,7 @@ import { Meta } from '@storybook/react/types-6-0'
 import React from 'react'
 import { List, Props } from 'components/list/List'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
+import { Launch } from 'components/list/components/Launch'
 
 export default {
   title: 'List',
@@ -48,6 +49,26 @@ History.args = {
             'https://www.nasaspaceflight.com/2008/12/spacex-and-orbital-win-huge-crs-contract-from-nasa/',
           wikipedia:
             'https://en.wikipedia.org/wiki/Commercial_Resupply_Services',
+        },
+      },
+    ],
+  },
+}
+
+export const Launches = (props: Props) => <List {...props} />
+Launches.args = {
+  loadData: () => void 0,
+  render: (props) => <Launch {...props} />, // eslint-disable-line
+  store: {
+    loading: false,
+    data: [
+      {
+        launch_date_utc: '2013-09-29T16:00:00.000Z',
+        mission_name: 'CASSIOPE',
+        payloads: {
+          manufacturer: ['MDA'],
+          nationality: ['Canada'],
+          payload_type: ['Satellite'],
         },
       },
     ],

@@ -1,9 +1,9 @@
 {
-  "name": "spaseXdata",
+  "name": "spasexdata",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server",
+    "start": "NODE_ENV=development webpack-dev-server --progress",
     "build": "NODE_ENV=production webpack --progress",
     "lint": "eslint --fix . --ext .ts,.tsx src",
     "storybook": "start-storybook -p 6006",

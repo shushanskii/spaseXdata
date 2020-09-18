@@ -1,60 +1,56 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
-import { Error } from 'components/modals/Error.tsx'
 import { colors } from 'app/constants'
+import { usePrevious } from 'utilities/usePrevious'
 
 export interface Props {
-  loadData: (page: number) => void
-  resetError: () => void
-  store: {
-    loading: boolean
-    error?: string
-    data?: any[]
-  }
-  render: (props: { item: any; key: string | number }) => void
+  onScrollEnd: () => void
+  onError?: (error: string) => void
+  loading: boolean
+  error?: string
+  data?: any[]
+  itemsRender: (props: { item: any; key: string | number }) => void
 }
 
-export function List({ loadData, resetError, store, render }: Props) {
-  const { data, error, loading } = store
-
-  const [page, setPage] = useState(0)
-
+export function List({
+  onError,
+  onScrollEnd,
+  error,
+  data,
+  loading,
+  itemsRender,
+}: Props) {
+  const prevData = usePrevious(data)
   const marker = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(handlerObserver, {
-      root: null,
-      rootMargin: '20px',
-      threshold: 1.0,
-    })
-
-    if (marker.current) {
-      observer.observe(marker.current)
-    }
-  }, [])
-
   const handlerObserver = ([target]) => {
     if (target.isIntersecting) {
-      setPage((page) => page + 1)
+      onScrollEnd()
     }
   }
+  const observer = new IntersectionObserver(handlerObserver, {
+    root: null,
+    rootMargin: '20px',
+    threshold: 1.0,
+  })
 
   useEffect(() => {
-    loadData(page)
-  }, [page])
+    if ((prevData || []).length === 0 && data.length > 0 && marker.current) {
+      observer.observe(marker.current)
+    }
+  }, [data])
 
-  const handlerReset = () => {
-    resetError()
-    loadData(page)
-  }
+  useEffect(() => {
+    if (onError && error) {
+      onError(error)
+    }
+  }, [error])
 
   return (
     <Wrapper>
       {loading && <LoadingIndicator />}
-      <Error error={error} onClose={handlerReset} />
       <Container>
-        {data?.map((item, index) => render({ item, key: index }))}
+        {data?.map((item, index) => itemsRender({ item, key: index }))}
         <div ref={marker}>&nbsp;</div>
       </Container>
     </Wrapper>

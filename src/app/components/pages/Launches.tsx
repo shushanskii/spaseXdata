@@ -14,6 +14,7 @@ import { PageContentWrapper } from 'components/pages/components/PageContentWrapp
 import { Title } from 'components/title/Title'
 import { Launch } from 'components/list/components/Launch'
 import { Error } from 'components/modals/Error.tsx'
+import { Launch as LaunchItem } from 'store/reducers/launches'
 
 export function Launches() {
   const { loading, data, error } = useSelector<State, LaunchesState>(
@@ -33,7 +34,7 @@ export function Launches() {
       <Error error={error} onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>Launches</Title>
-        <List
+        <List<LaunchItem>
           onScrollEnd={() => console.log('on scroll end')}
           onError={(error) => console.log('on error', error)}
           data={data}

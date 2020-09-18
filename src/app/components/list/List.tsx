@@ -3,24 +3,25 @@ import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
 import { usePrevious } from 'utilities/usePrevious'
+import { Launch } from 'store/reducers/launches'
 
-export interface Props {
+export interface Props<T> {
   onScrollEnd: () => void
   onError?: (error: string) => void
   loading: boolean
   error?: string
   data?: any[]
-  itemsRender: (props: { item: any; key: string | number }) => void
+  itemsRender: (props: { item: T; key: string | number }) => void
 }
 
-export function List({
+export function List<T>({
   onError,
   onScrollEnd,
   error,
   data,
   loading,
   itemsRender,
-}: Props) {
+}: Props<T>) {
   const prevData = usePrevious(data)
   const marker = useRef(null)
   const handlerObserver = ([target]) => {

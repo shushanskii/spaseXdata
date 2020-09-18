@@ -9,7 +9,7 @@ export default {
   component: List,
 } as Meta
 
-export const Basic = (props: Props) => <List {...props} />
+export const Basic = (props: Props<any>) => <List {...props} />
 Basic.args = {
   loadData: () => void 0,
   render: () => (<div>Some Title</div>), // eslint-disable-line
@@ -19,7 +19,7 @@ Basic.args = {
   },
 }
 
-export const History = (props: Props) => <List {...props} />
+export const History = (props: Props<any>) => <List {...props} />
 History.args = {
   loadData: () => void 0,
   render: (props) => <HistoricalEvent {...props} />, // eslint-disable-line
@@ -55,7 +55,7 @@ History.args = {
   },
 }
 
-export const Launches = (props: Props) => <List {...props} />
+export const Launches = (props: Props<any>) => <List {...props} />
 Launches.args = {
   loadData: () => void 0,
   render: (props) => <Launch {...props} />, // eslint-disable-line

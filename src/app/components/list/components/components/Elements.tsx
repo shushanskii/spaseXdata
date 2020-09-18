@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 import { colors, MEDIA } from 'app/constants'
+import hexToRgba from 'hex-to-rgba'
 
 export const Container = styled.div`
   width: 100%;
   min-height: 102px;
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid ${hexToRgba(colors.white, 0.25)};
   padding: 20px 16px;
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, delay, put } from 'redux-saga/effects'
 import {
   LoadError,
   LoadStart,
@@ -49,6 +49,8 @@ export default function* updateLaunches({
       },
     })
   } catch (error) {
+    yield delay(1000)
+
     yield put<LoadError<Types.LOAD_ERROR>>({
       type: Types.LOAD_ERROR,
       payload: {

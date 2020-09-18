@@ -1,5 +1,6 @@
 export enum LaunchesActionTypes {
-  UPDATE = 'LAUNCH_ACTION_UPDATE',
+  UPDATE = 'LAUNCHES_ACTION_UPDATE',
+  RESET_ERROR = 'LAUNCHES_ACTION_RESET_ERROR',
 }
 
 export interface LaunchesActionUpdate {
@@ -7,4 +8,7 @@ export interface LaunchesActionUpdate {
   payload: {
     page: number
   }
+}
+export interface LaunchesResetError {
+  type: LaunchesActionTypes.RESET_ERROR
 }

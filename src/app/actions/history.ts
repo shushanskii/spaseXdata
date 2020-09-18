@@ -1,5 +1,6 @@
 export enum HistoryActionTypes {
   UPDATE = 'HISTORY_ACTION_UPDATE',
+  RESET_ERROR = 'HISTORY_ACTION_RESET_ERROR',
 }
 
 export interface HistoryActionUpdate {
@@ -7,4 +8,8 @@ export interface HistoryActionUpdate {
   payload: {
     page: number
   }
+}
+
+export interface HistoryResetError {
+  type: HistoryActionTypes.RESET_ERROR
 }

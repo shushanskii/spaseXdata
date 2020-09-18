@@ -8,14 +8,18 @@ import { State as HistoryState } from 'store/reducers/history'
 import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
 import { Title } from 'components/title/Title'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
-import { HistoryActionTypes, HistoryActionUpdate } from 'actions/history'
+import {
+  HistoryActionTypes,
+  HistoryActionUpdate,
+  HistoryResetError,
+} from 'actions/history'
 
 export function History() {
-  const dispatch = useDispatch<DispatchType<HistoryActionUpdate>>()
-
+  const load = useDispatch<DispatchType<HistoryActionUpdate>>()
   const loadData = (page: number) =>
-    dispatch({ type: HistoryActionTypes.UPDATE, payload: { page } })
-
+    load({ type: HistoryActionTypes.UPDATE, payload: { page } })
+  const reset = useDispatch<DispatchType<HistoryResetError>>()
+  const resetError = () => reset({ type: HistoryActionTypes.RESET_ERROR })
   const store = useSelector<State, HistoryState>((store) => store.history)
 
   return (
@@ -24,6 +28,7 @@ export function History() {
         <Title>History</Title>
         <List
           loadData={loadData}
+          resetError={resetError}
           store={store}
           render={(props) => <HistoricalEvent {...props} />}
         />

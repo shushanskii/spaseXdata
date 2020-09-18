@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, delay } from 'redux-saga/effects'
 import { request } from 'utilities/request'
 import { Methods, requestConstructor } from 'utilities/requestConstructor'
 import { LIST_PAGE_LIMIT } from 'app/constants'
@@ -40,6 +40,8 @@ export default function* updateHistory({
       },
     })
   } catch (error) {
+    yield delay(500)
+
     yield put<LoadError<Types.LOAD_ERROR>>({
       type: Types.LOAD_ERROR,
       payload: {

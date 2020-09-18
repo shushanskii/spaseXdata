@@ -5,6 +5,7 @@ import { Title } from 'components/title/Title'
 import styled from 'styled-components'
 import { Link as RouterLink, LinkProps } from 'react-router-dom'
 import { colors } from 'app/constants'
+import hexToRgba from 'hex-to-rgba'
 
 export function Home() {
   return (
@@ -36,7 +37,7 @@ const Button = styled(RouterLink)<LinkProps<null>>`
   width: 40%;
   height: 176px;
   border-radius: 6px;
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: ${hexToRgba(colors.white, 0.04)};
 
   cursor: pointer;
   font-family: Avenir-Roman, sans-serif;

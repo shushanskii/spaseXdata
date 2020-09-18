@@ -8,10 +8,13 @@ export type LoadError<T> = T extends Types.LOAD_ERROR
   ? { type: T; payload: { error: string } }
   : never
 
+export type ResetError<T> = T extends Types.RESET_ERROR ? { type: T } : never
+
 export enum Types {
   LOAD_START = 'LAUNCHES_LOAD_START',
   LOAD_SUCCESS = 'LAUNCHES_LOAD_SUCCESS',
   LOAD_ERROR = 'LAUNCHES_LOAD_ERROR',
+  RESET_ERROR = 'LAUNCHES_RESET_ERROR',
 }
 
 export interface Launch {
@@ -47,14 +50,21 @@ export const reducer = (
 ): State => {
   const { type, payload } = action
   switch (type) {
-    case Types.LOAD_START:
+    case Types.LOAD_START: {
       return { ...state, loading: true }
-    case Types.LOAD_SUCCESS:
+    }
+    case Types.LOAD_SUCCESS: {
       const { data } = payload
       return { ...state, data: [...state.data, ...data], loading: false }
-    case Types.LOAD_ERROR:
+    }
+    case Types.LOAD_ERROR: {
       const { error } = payload
       return { ...state, error, loading: false }
+    }
+    case Types.RESET_ERROR: {
+      const { error, ...otherState } = state
+      return otherState
+    }
     default:
       return state
   }

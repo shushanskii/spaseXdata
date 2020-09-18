@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Launch } from 'components/list/components/Launch'
-import { Launch as LaunchType } from 'store/reducers/launches'
 
-enum ItemsType {
-  LAUNCH = 'launch',
-}
-
-interface Props {
+export interface Props {
   loadData: (page: number) => void
   store: {
     loading: boolean

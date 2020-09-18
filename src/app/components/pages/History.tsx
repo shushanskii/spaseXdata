@@ -21,7 +21,7 @@ export function History() {
   return (
     <Page>
       <PageContentWrapper>
-        <Title title={'History'} />
+        <Title>History</Title>
         <List
           loadData={loadData}
           store={store}

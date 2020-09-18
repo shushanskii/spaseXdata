@@ -22,7 +22,7 @@ export function Launches() {
   return (
     <Page>
       <PageContentWrapper>
-        <Title title={'Launches'} />
+        <Title>Launches</Title>
         <List
           loadData={loadData}
           store={store}

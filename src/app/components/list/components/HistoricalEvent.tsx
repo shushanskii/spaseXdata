@@ -18,7 +18,7 @@ interface Props {
 export function HistoricalEvent({
   item: { title, details, event_date_utc, links },
 }: Props) {
-  const [, year, time] = /(.*)T(.*)Z/.exec(event_date_utc)
+  const [, year, time] = /(.*)T(.*)Z/.exec(event_date_utc) || []
 
   return (
     <Container>

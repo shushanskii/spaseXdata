@@ -10,7 +10,7 @@ export function Home() {
   return (
     <Page>
       <PageContentWrapper>
-        <Title title={'SpaceXData'} />
+        <Title>SpaceXData</Title>
         <Content>
           <Button to={'/history'} tabIndex={1}>
             History

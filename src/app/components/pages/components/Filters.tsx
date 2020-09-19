@@ -12,17 +12,29 @@ import {
   LaunchesResetState,
 } from 'actions/launches'
 import { debounce } from 'lodash'
+import { DateSelector } from 'components/dateSelector/DateSelector'
+import { OnDatesChangeProps } from '@datepicker-react/hooks/lib/useDatepicker/useDatepicker'
+import { formatDate } from 'utilities/formatDate'
 
 export function Filters() {
   const { filters, setFilters } = useContext(LaunchFiltersContext)
   const resetAction = useDispatch<DispatchType<LaunchesResetState>>()
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
 
-  const debounceApply = useCallback(
-    debounce((value) => setFilters({ manufacturer: value }), 1000),
+  const setManufacturer = useCallback(
+    debounce((value) => setFilters({ manufacturer: value }), 700),
     []
   )
-  const handlerManufacturerChange = (value) => debounceApply(value)
+  const handlerManufacturerChange = (value) => setManufacturer(value)
+
+  const handlerDatesChange = ({ startDate, endDate }: OnDatesChangeProps) => {
+    if (startDate && endDate) {
+      setFilters({
+        start_date: formatDate(startDate),
+        end_date: formatDate(endDate),
+      })
+    }
+  }
 
   useEffect(() => {
     if (filters) {
@@ -36,25 +48,26 @@ export function Filters() {
 
   return (
     <Wrapper>
+      <DateSelector onDatesChange={handlerDatesChange} />
       <Input
         placeholder={'Manufacturer'}
         onChange={handlerManufacturerChange}
       />
-      <Input placeholder={'Launch Date UTC'} />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   width: 100%;
+  min-height: 250px;
   border-radius: 6px;
   background-color: ${hexToRgba(colors.white, 0.04)};
   padding: 50px 40px;
   margin-bottom: 40px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 `
 const Input = styled(InputText)`
   width: 45%;

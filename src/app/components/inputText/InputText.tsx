@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import Select from 'components/inputText/components/Select/Select'
 import { colors } from 'app/constants'
 
 interface Props {
   placeholder: string
+  value?: string
   onChange?: (value: string) => void
+  onClick?: (...args: any[]) => void
   options?: { key: string | number; value: string | number }[] | string[]
   disabled?: boolean
   focused?: boolean
@@ -25,11 +27,13 @@ const initialState: State = {
 export function InputText({
   focused: propsFocused,
   onChange,
+  onClick,
   error,
   placeholder,
   disabled,
   options,
   className,
+  value: propsValue,
 }: Props) {
   if (propsFocused) {
     initialState.focused = true
@@ -51,6 +55,10 @@ export function InputText({
     if (!disabled && !propsFocused && !focused) {
       inputRef.current.focus()
       setState({ ...state, focused: true })
+    }
+
+    if (!disabled && onClick) {
+      onClick()
     }
   }
 
@@ -81,7 +89,7 @@ export function InputText({
           disabled={disabled}
           onFocus={handlerFocus}
           onChange={handlerInputText}
-          value={value}
+          value={propsValue || value}
           ref={inputRef}
         />
         <Placeholder focused={focused} disabled={disabled}>

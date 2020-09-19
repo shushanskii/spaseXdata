@@ -35,4 +35,5 @@ export const colors = {
   altoDark: '#d8d8d8',
   blue: '#0000ff',
   monza: '#d20724',
+  woodsmoke: '#141618',
 }

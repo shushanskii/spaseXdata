@@ -49,6 +49,7 @@ export const requestConstructor: ApiRequestString<
       .map((value) => value)
       .join('/')
   )}?${Object.entries(query || {})
+    .filter(([, value]) => value)
     .map(
       ([key, value]) =>
         `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`

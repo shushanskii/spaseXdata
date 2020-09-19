@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Page } from 'components/pages/components/Page'
 import { List } from 'components/list/List'
+import { Filters } from 'components/pages/components/Filters'
 import { useDispatch, useSelector } from 'react-redux'
 import { DispatchType } from 'app/types'
 import {
   LaunchesActionTypes,
   LaunchesActionUpdate,
+  LaunchesFilters,
   LaunchesResetError,
 } from 'actions/launches'
 import { State } from 'src/app/store/rootReducer'
@@ -20,33 +22,34 @@ import {
   FiltersContextProvider,
 } from 'components/contexts/FiltersContext'
 
-interface Filters {
-  date: Date
-}
-
-const context = createFiltersContext<Filters>()
+export const LaunchFiltersContext = createFiltersContext<LaunchesFilters>()
 
 function LaunchesPage() {
-  const [page, setPage] = useState<number>(0)
   const { loading, data, error } = useSelector<State, LaunchesState>(
     (store) => store.launches
   )
-  const { filters, setFilters } = useContext(context)
+  const { filters, page, setPage } = useContext(LaunchFiltersContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
-  const resetAction = useDispatch<DispatchType<LaunchesResetError>>()
+  const resetErrorAction = useDispatch<DispatchType<LaunchesResetError>>()
   const handlerCloseErrorModal = () =>
-    resetAction({ type: LaunchesActionTypes.RESET_ERROR })
+    resetErrorAction({ type: LaunchesActionTypes.RESET_ERROR })
   const handlerScrollEnd = () => {
-    setPage((page) => page + 1)
+    setPage(page => page + 1) // eslint-disable-line
   }
 
   useEffect(() => {
-    loadAction({ type: LaunchesActionTypes.UPDATE, payload: { page } })
+    loadAction({
+      type: LaunchesActionTypes.UPDATE,
+      payload: { filters, page: 0 },
+    })
   }, [])
 
   useEffect(() => {
-    if (page) {
-      loadAction({ type: LaunchesActionTypes.UPDATE, payload: { page } })
+    if (page > -1) {
+      loadAction({
+        type: LaunchesActionTypes.UPDATE,
+        payload: { filters, page },
+      })
     }
   }, [page])
 
@@ -55,6 +58,7 @@ function LaunchesPage() {
       <Error error={error} onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>Launches</Title>
+        <Filters />
         <List<LaunchItem>
           onScrollEnd={handlerScrollEnd}
           data={data}
@@ -68,10 +72,7 @@ function LaunchesPage() {
 }
 
 export const Launches = () => (
-  <FiltersContextProvider<Filters>
-    context={context}
-    initialFilters={{ date: new Date() }}
-  >
+  <FiltersContextProvider<LaunchesFilters> context={LaunchFiltersContext}>
     <LaunchesPage />
   </FiltersContextProvider>
 )

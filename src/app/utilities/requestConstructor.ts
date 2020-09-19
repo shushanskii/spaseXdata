@@ -33,7 +33,6 @@ export type Launches<T> = T extends Methods.LAUNCHES
       query?: CommonQueryParams & {
         start?: string
         end?: string
-        flight_number?: number
         rocket_id?: string
       }
     }

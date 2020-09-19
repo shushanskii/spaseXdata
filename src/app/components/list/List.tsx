@@ -51,7 +51,7 @@ export function List<T>({
       {loading && <LoadingIndicator />}
       <Container>
         {data?.map((item, index) => itemsRender({ item, key: index }))}
-        <div ref={marker}>&nbsp;</div>
+        {data.length ? <div ref={marker}>&nbsp;</div> : null}
       </Container>
     </Wrapper>
   )

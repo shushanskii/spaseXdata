@@ -8,18 +8,16 @@ import {
   LaunchesActionTypes,
   LaunchesActionUpdate,
   LaunchesResetError,
+  LaunchesResetState,
 } from 'actions/launches'
 import updateHistory from 'middleware/saga/updateHistory'
 import updateLaunches from 'middleware/saga/updateLaunches'
 import resetHistoryError from 'middleware/saga/resetHistoryError'
 import resetLaunchesError from 'middleware/saga/resetLaunchesError'
+import resetLaunchesState from 'middleware/saga/resetLaunchesState'
 
 export default function* saga() {
   yield all([
-    yield takeEvery<LaunchesActionUpdate>(
-      LaunchesActionTypes.UPDATE,
-      updateLaunches
-    ),
     yield takeEvery<HistoryActionUpdate>(
       HistoryActionTypes.UPDATE,
       updateHistory
@@ -28,9 +26,18 @@ export default function* saga() {
       HistoryActionTypes.RESET_ERROR,
       resetHistoryError
     ),
+    // launches sagas
+    yield takeEvery<LaunchesActionUpdate>(
+      LaunchesActionTypes.UPDATE,
+      updateLaunches
+    ),
     yield takeEvery<LaunchesResetError>(
       LaunchesActionTypes.RESET_ERROR,
       resetLaunchesError
+    ),
+    yield takeEvery<LaunchesResetState>(
+      LaunchesActionTypes.RESET_STATE,
+      resetLaunchesState
     ),
   ])
 }

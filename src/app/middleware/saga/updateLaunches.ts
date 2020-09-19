@@ -11,7 +11,7 @@ import { Methods, requestConstructor } from 'utilities/requestConstructor'
 import { LIST_PAGE_LIMIT } from 'app/constants'
 
 export default function* updateLaunches({
-  payload: { page },
+  payload: { page, filters },
 }: LaunchesActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
 
@@ -20,6 +20,7 @@ export default function* updateLaunches({
       request,
       requestConstructor(Methods.LAUNCHES, {
         query: {
+          ...filters,
           limit: LIST_PAGE_LIMIT,
           offset: page * LIST_PAGE_LIMIT,
         },
@@ -49,8 +50,6 @@ export default function* updateLaunches({
       },
     })
   } catch (error) {
-    yield delay(1000)
-
     yield put<LoadError<Types.LOAD_ERROR>>({
       type: Types.LOAD_ERROR,
       payload: {

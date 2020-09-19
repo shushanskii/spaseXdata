@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
 import { usePrevious } from 'utilities/usePrevious'
-import { Launch } from 'store/reducers/launches'
 
 export interface Props<T> {
   onScrollEnd: () => void

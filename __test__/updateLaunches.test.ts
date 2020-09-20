@@ -1,4 +1,4 @@
-import updateLaunches from 'middleware/saga/updateLaunches'
+import fetchLaunches from 'middleware/saga/fetchLaunches'
 import { LaunchesActionTypes } from 'actions/launches'
 import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'
@@ -43,7 +43,7 @@ describe('updateLaunches saga', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      updateLaunches,
+      fetchLaunches,
       {
         type: LaunchesActionTypes.UPDATE,
         payload: {
@@ -69,7 +69,7 @@ describe('updateLaunches saga', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      updateLaunches,
+      fetchLaunches,
       {
         type: LaunchesActionTypes.UPDATE,
         payload: {

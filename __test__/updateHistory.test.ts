@@ -1,4 +1,4 @@
-import updateHistory from 'middleware/saga/updateHistory'
+import fetchHistory from 'middleware/saga/fetchHistory'
 import { HistoryActionTypes } from 'actions/history'
 import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'
@@ -45,7 +45,7 @@ describe('updateHistory saga', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      updateHistory,
+      fetchHistory,
       {
         type: HistoryActionTypes.UPDATE,
         payload: {
@@ -71,7 +71,7 @@ describe('updateHistory saga', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      updateHistory,
+      fetchHistory,
       {
         type: HistoryActionTypes.UPDATE,
         payload: {

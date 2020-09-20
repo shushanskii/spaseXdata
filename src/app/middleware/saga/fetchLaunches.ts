@@ -6,11 +6,11 @@ import {
   Types,
 } from 'store/reducers/launches'
 import { LaunchesActionUpdate } from 'actions/launches'
-import riseError from 'middleware/saga/riseError'
+import errorRise from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-export default function* updateLaunches({ payload }: LaunchesActionUpdate) {
+export default function* fetchLaunches({ payload }: LaunchesActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
 
   try {
@@ -43,7 +43,7 @@ export default function* updateLaunches({ payload }: LaunchesActionUpdate) {
   } catch (error) {
     yield put<LoadStop<Types.LOAD_STOP>>({ type: Types.LOAD_STOP })
 
-    yield call(riseError, {
+    yield call(errorRise, {
       type: ErrorActionTypes.RISE_ERROR,
       payload: {
         error: `${error}` // eslint-disable-line

@@ -1,11 +1,11 @@
 import { call, put } from 'redux-saga/effects'
 import { HistoryActionUpdate } from 'actions/history'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/history'
-import riseError from 'middleware/saga/riseError'
+import errorRise from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-export default function* updateHistory({
+export default function* fetchHistory({
   payload: { page },
 }: HistoryActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({
@@ -29,7 +29,7 @@ export default function* updateHistory({
   } catch (error) {
     yield put<LoadStop<Types.LOAD_STOP>>({ type: Types.LOAD_STOP })
 
-    yield call(riseError, {
+    yield call(errorRise, {
       type: ErrorActionTypes.RISE_ERROR,
       payload: {
         error: `${error}` // eslint-disable-line

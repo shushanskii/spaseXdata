@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/launch'
 import { LaunchActionFetch } from 'actions/launch'
-import riseError from 'middleware/saga/riseError'
+import errorRise from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
@@ -22,7 +22,7 @@ export default function* fetchLaunch({
   } catch (error) {
     yield put<LoadStop<Types.LOAD_STOP>>({ type: Types.LOAD_STOP })
 
-    yield call(riseError, {
+    yield call(errorRise, {
       type: ErrorActionTypes.RISE_ERROR,
       payload: {
         error: `${error}` // eslint-disable-line

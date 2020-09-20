@@ -9,9 +9,11 @@ import { LaunchActionFetch, LaunchActionTypes } from 'actions/launch'
 import { State } from 'store/rootReducer'
 import { State as LaunchState } from 'store/reducers/launch'
 import { LaunchInfoContext } from 'components/contexts/LaunchInfoContext'
+import { Spinner } from 'components/spinner/Spinner'
+import { State as ErrorState } from 'store/reducers/error'
 
 export function LaunchInfo() {
-  const [visible, setVisible] = useState<boolean>(false)
+  const { error } = useSelector<State, ErrorState>((store) => store.error)
   const { flightNumber, showLaunchInfo } = useContext(LaunchInfoContext)
   const { loading, data } = useSelector<State, LaunchState>(
     (store) => store.launch
@@ -21,18 +23,18 @@ export function LaunchInfo() {
 
   useEffect(() => {
     if (!isNaN(flightNumber)) {
-      setVisible(true)
       fetchAction({
         type: LaunchActionTypes.FETCH,
         payload: { flight_number: flightNumber },
       })
-    } else {
-      setVisible(false)
     }
   }, [flightNumber])
 
   return (
-    <Window visible={visible} onClose={handlerClose}>
+    <Window visible={!isNaN(flightNumber) && !error} onClose={handlerClose}>
+      {loading && (
+        <Spinner color={colors.clementine} top={'5px'} left={'5px'} />
+      )}
       <Caption>Launch Info</Caption>
       <Content>{data && JSON.stringify(data)}</Content>
     </Window>

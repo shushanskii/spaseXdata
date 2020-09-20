@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
 import { usePrevious } from 'utilities/usePrevious'
+import { Spinner } from 'components/spinner/Spinner'
 
 export interface Props<T> {
   onScrollEnd: () => void
@@ -33,7 +34,7 @@ export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
 
   return (
     <Wrapper>
-      {loading && <LoadingIndicator />}
+      {loading && <Spinner color={colors.osloGray} top={'5px'} left={'5px'} />}
       <Container>
         {data?.map((item, index) => itemsRender({ item, key: index }))}
         {data.length ? <div ref={marker}>&nbsp;</div> : null}
@@ -55,32 +56,4 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-`
-
-const LoadingIndicator = styled.div`
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  display: inline-block;
-
-  &:after {
-    content: ' ';
-    display: block;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 3px solid;
-    border-color: ${colors.osloGray} transparent ${colors.osloGray} transparent;
-    animation: ring 1.2s linear infinite;
-  }
-  @keyframes ring {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 `

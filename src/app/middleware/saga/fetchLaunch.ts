@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, delay } from 'redux-saga/effects'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/launch'
 import { LaunchActionFetch } from 'actions/launch'
 import { errorRise } from 'middleware/saga/errorRise'
@@ -12,6 +12,9 @@ export function* fetchLaunch({
 
   try {
     const data = yield call(API.fetchLaunch, flight_number)
+
+    // to prevent blink of loading indicator
+    yield delay(1000)
 
     yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
       type: Types.LOAD_SUCCESS,

@@ -1,13 +1,11 @@
 import { call, put } from 'redux-saga/effects'
 import { HistoryActionUpdate } from 'actions/history'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/history'
-import errorRise from 'middleware/saga/errorRise'
+import { errorRise } from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-export default function* fetchHistory({
-  payload: { page },
-}: HistoryActionUpdate) {
+export function* fetchHistory({ payload: { page } }: HistoryActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({
     type: Types.LOAD_START,
   })

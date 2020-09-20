@@ -1,4 +1,4 @@
-import fetchHistory from 'middleware/saga/fetchHistory'
+import { fetchHistory } from 'middleware/saga/fetchHistory'
 import { HistoryActionTypes } from 'actions/history'
 import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'

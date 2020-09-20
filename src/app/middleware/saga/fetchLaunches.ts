@@ -6,11 +6,11 @@ import {
   Types,
 } from 'store/reducers/launches'
 import { LaunchesActionUpdate } from 'actions/launches'
-import errorRise from 'middleware/saga/errorRise'
+import { errorRise } from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-export default function* fetchLaunches({ payload }: LaunchesActionUpdate) {
+export function* fetchLaunches({ payload }: LaunchesActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
 
   try {

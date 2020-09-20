@@ -1,11 +1,11 @@
 import { call, put } from 'redux-saga/effects'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/launch'
 import { LaunchActionFetch } from 'actions/launch'
-import errorRise from 'middleware/saga/errorRise'
+import { errorRise } from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-export default function* fetchLaunch({
+export function* fetchLaunch({
   payload: { flight_number },
 }: LaunchActionFetch) {
   yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })

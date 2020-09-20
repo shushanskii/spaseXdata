@@ -2,7 +2,7 @@ import { applyMiddleware, createStore, Store } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { rootReducer, State } from './rootReducer'
 import { logger } from 'middleware/logger'
-import saga from 'middleware/saga'
+import { saga } from 'middleware/saga'
 
 type ConfigureStore<T> = (initialState?: T) => Store<T>
 

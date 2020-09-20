@@ -1,4 +1,4 @@
-import fetchLaunches from 'middleware/saga/fetchLaunches'
+import { fetchLaunches } from 'middleware/saga/fetchLaunches'
 import { LaunchesActionTypes } from 'actions/launches'
 import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'

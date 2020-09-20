@@ -11,14 +11,14 @@ import {
   ErrorActionRise,
   ErrorActionTypes,
 } from 'actions/error'
-import fetchHistory from 'middleware/saga/fetchHistory'
-import fetchLaunches from 'middleware/saga/fetchLaunches'
-import resetLaunchesState from 'middleware/saga/resetLaunchesState'
-import fetchLaunch from 'middleware/saga/fetchLaunch'
-import errorRise from 'middleware/saga/errorRise'
-import errorClear from 'middleware/saga/errorClear'
+import { fetchHistory } from 'middleware/saga/fetchHistory'
+import { fetchLaunches } from 'middleware/saga/fetchLaunches'
+import { resetLaunchesState } from 'middleware/saga/resetLaunchesState'
+import { fetchLaunch } from 'middleware/saga/fetchLaunch'
+import { errorRise } from 'middleware/saga/errorRise'
+import { errorClear } from 'middleware/saga/errorClear'
 
-export default function* saga() {
+export function* saga() {
   yield all([
     yield takeEvery<HistoryActionUpdate>(
       HistoryActionTypes.UPDATE,

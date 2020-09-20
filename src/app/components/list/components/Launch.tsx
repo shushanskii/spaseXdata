@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Launch } from 'store/reducers/launches'
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Date,
   Description,
 } from 'components/list/components/components/Elements'
+import { ModalsContext } from 'components/contexts/ModalsContext'
 
 interface Props {
   item: Launch
@@ -15,15 +16,25 @@ interface Props {
 
 export function Launch({
   item: {
+    flight_number,
     mission_name,
     launch_date_utc,
     payloads: { nationality, manufacturer, payload_type },
   },
 }: Props) {
+  const { toggleVisible } = useContext(ModalsContext)
   const [, year, time] = /(.*)T(.*)\.(?:.*)Z/.exec(launch_date_utc)
 
+  const handlerClick = () => {
+    toggleVisible({
+      name: 'launchInfo',
+      visible: true,
+      params: { flight_number },
+    })
+  }
+
   return (
-    <Container>
+    <Container onClick={handlerClick}>
       <Description>
         <SubTitle>Payload types:</SubTitle>
         {payload_type.join(', ')}

@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Window } from 'components/modals/components/window/Window'
 import { Caption } from 'components/modals/components/window/components/Caption'
 import { colors } from 'app/constants'
+import { ModalsContext } from 'components/contexts/ModalsContext'
 
 interface Props {
-  error: string | number
   onClose: (...args: any[]) => void
 }
 
-export function Error({ error, onClose }: Props) {
+export function Error({ onClose }: Props) {
+  const {
+    modals: {
+      error: { visible, params },
+    },
+  } = useContext(ModalsContext)
+  const message = params && params.error && `${params.error}` // eslint-disable-line
+
   return (
-    <Window visible={!!error} onClose={onClose}>
+    <Window visible={visible} onClose={onClose}>
       <Caption>Something goes wrong...</Caption>
-      <Content>{`${error}`}</Content>
+      <Content>{message}</Content>
     </Window>
   )
 }

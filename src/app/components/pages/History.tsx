@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Page } from 'components/pages/components/Page'
 import { List } from 'components/list/List'
 import { useDispatch, useSelector } from 'react-redux'
 import { DispatchType } from 'app/types'
 import { State } from 'store/rootReducer'
 import { State as HistoryState } from 'store/reducers/history'
-import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
 import { Title } from 'components/title/Title'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
 import { HistoricalEvent as HistoricalEventItem } from 'store/reducers/history'
@@ -16,6 +14,7 @@ import {
   HistoryResetError,
 } from 'actions/history'
 import { Error } from 'components/modals/Error'
+import { Page, PageContentWrapper } from 'components/pages/components/Elements'
 
 export function History() {
   const [page, setPage] = useState<number>(0)
@@ -41,7 +40,7 @@ export function History() {
 
   return (
     <Page>
-      <Error error={error} onClose={handlerCloseErrorModal} />
+      <Error onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>History</Title>
         <List<HistoricalEventItem>

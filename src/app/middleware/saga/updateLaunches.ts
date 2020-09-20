@@ -1,4 +1,4 @@
-import { call, delay, put } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import {
   LoadError,
   LoadStart,
@@ -32,12 +32,14 @@ export default function* updateLaunches({
       payload: {
         data: data.map(
           ({
+            flight_number,
             mission_name,
             launch_date_utc,
             rocket: {
               second_stage: { payloads },
             },
           }) => ({
+            flight_number,
             mission_name,
             launch_date_utc,
             payloads: {

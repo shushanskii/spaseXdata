@@ -1,11 +1,10 @@
 import React from 'react'
-import { Page } from 'components/pages/components/Page'
-import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
 import { Title } from 'components/title/Title'
 import styled from 'styled-components'
 import { Link as RouterLink, LinkProps } from 'react-router-dom'
 import { colors } from 'app/constants'
 import hexToRgba from 'hex-to-rgba'
+import { Page, PageContentWrapper } from 'components/pages/components/Elements'
 
 export function Home() {
   return (

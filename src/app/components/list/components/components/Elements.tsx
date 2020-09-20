@@ -5,12 +5,21 @@ import hexToRgba from 'hex-to-rgba'
 export const Container = styled.div`
   width: 100%;
   min-height: 102px;
-  border-top: 1px solid ${hexToRgba(colors.white, 0.25)};
+  border-bottom: 1px solid ${hexToRgba(colors.white, 0.25)};
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  cursor: pointer;
+
+  &:first-child {
+    border-top: 1px solid ${hexToRgba(colors.white, 0.25)};
+  }
+
+  &:hover {
+    background-color: ${colors.bunkerDark};
+  }
 `
 
 export const Description = styled.div`

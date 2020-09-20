@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import { Page } from 'components/pages/components/Page'
 import { List } from 'components/list/List'
 import { Filters } from 'components/pages/components/Filters'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,7 +11,6 @@ import {
 } from 'actions/launches'
 import { State } from 'src/app/store/rootReducer'
 import { State as LaunchesState } from 'store/reducers/launches'
-import { PageContentWrapper } from 'components/pages/components/PageContentWrapper'
 import { Title } from 'components/title/Title'
 import { Launch } from 'components/list/components/Launch'
 import { Error } from 'components/modals/Error.tsx'
@@ -21,6 +19,9 @@ import {
   createFiltersContext,
   FiltersContextProvider,
 } from 'components/contexts/FiltersContext'
+import { Page, PageContentWrapper } from 'components/pages/components/Elements'
+import { ModalsContext } from 'components/contexts/ModalsContext'
+import { LaunchInfo } from 'components/modals/LaunchInfo'
 
 export const LaunchFiltersContext = createFiltersContext<LaunchesFilters>()
 
@@ -29,6 +30,7 @@ function LaunchesPage() {
     (store) => store.launches
   )
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
+  const { toggleVisible } = useContext(ModalsContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
   const resetErrorAction = useDispatch<DispatchType<LaunchesResetError>>()
   const handlerCloseErrorModal = () =>
@@ -53,9 +55,14 @@ function LaunchesPage() {
     }
   }, [page])
 
+  useEffect(() => {
+    toggleVisible({ name: 'error', visible: !!error, params: { error } })
+  }, [error])
+
   return (
     <Page>
-      <Error error={error} onClose={handlerCloseErrorModal} />
+      <LaunchInfo />
+      <Error onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>Launches</Title>
         <Filters />

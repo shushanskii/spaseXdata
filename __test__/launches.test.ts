@@ -26,6 +26,7 @@ describe('launches reducer', () => {
         payload: {
           data: [
             {
+              flight_number: 9,
               mission_name: 'Some Name',
               launch_date_utc: 'some-utc-date',
               payloads: {

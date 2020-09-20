@@ -1,7 +1,7 @@
 import { colors } from 'app/constants'
 import hexToRgba from 'hex-to-rgba'
 
-export const DateTheme = {
+export const DateSelectorTheme = {
   reactDatepicker: {
     daySize: [36, 40],
     inputFontWeight: 'normal',
@@ -18,7 +18,7 @@ export const DateTheme = {
     dateRangeStartDateInputPadding: '0 16px',
     dateRangeEndDateInputPadding: '0 16px',
     dateRangeGridTemplateColumns: '252px 40px 252px',
-    dateRangeZIndex: 100,
+    dateRangeZIndex: 0,
 
     datepickerPadding: '20px 16px 8px',
     datepickerBackground: `${colors.woodsmoke}`,

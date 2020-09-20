@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DateRangeInput } from '@datepicker-react/styled'
 import { ThemeProvider } from 'styled-components'
-import { DateTheme } from 'components/dateSelector/DateTheme'
+import { DateSelectorTheme } from 'components/dateSelector/DateSelectorTheme'
 import {
   FocusedInput,
   OnDatesChangeProps,
@@ -38,7 +38,7 @@ export function DateSelector({ onDatesChange }: Props) {
   }
 
   return (
-    <ThemeProvider theme={DateTheme}>
+    <ThemeProvider theme={DateSelectorTheme}>
       <DateRangeInput
         displayFormat={'yyyy-MM-dd'}
         numberOfMonths={1}

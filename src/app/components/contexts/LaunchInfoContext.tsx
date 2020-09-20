@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 interface State {
   flightNumber?: number
@@ -14,6 +14,10 @@ export function LaunchInfoContextProvider({
     showLaunchInfo: (flightNumber?: number) =>
       setState({ ...state, flightNumber }),
   })
+
+  useEffect(() => {
+    document.body.style.overflow = state.flightNumber ? 'hidden' : 'unset'
+  }, [state])
 
   return (
     <LaunchInfoContext.Provider value={state}>

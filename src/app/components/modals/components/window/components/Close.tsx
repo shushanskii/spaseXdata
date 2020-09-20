@@ -21,8 +21,8 @@ const Container = styled.div`
   border-radius: 50%;
   cursor: pointer;
   position: absolute;
-  top: 32px;
-  right: 32px;
+  top: 10px;
+  right: 13px;
   display: flex;
   flex-direction: column;
   align-items: center;

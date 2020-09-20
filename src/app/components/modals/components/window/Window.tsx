@@ -13,6 +13,7 @@ interface Props {
 const style = {
   overlay: {
     backgroundColor: `${hexToRgba(colors.black, 0.4)}`,
+    zIndex: 2,
   },
 }
 

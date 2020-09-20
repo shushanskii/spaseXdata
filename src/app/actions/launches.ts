@@ -1,7 +1,7 @@
 export interface LaunchesFilters {
   manufacturer?: string
-  start_date?: string
-  end_date?: string
+  start?: string
+  end?: string
 }
 
 export enum LaunchesActionTypes {

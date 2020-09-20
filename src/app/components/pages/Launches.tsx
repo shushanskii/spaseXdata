@@ -7,6 +7,7 @@ import {
   LaunchesActionTypes,
   LaunchesActionUpdate,
   LaunchesFilters,
+  LaunchesResetState,
 } from 'actions/launches'
 import { State } from 'src/app/store/rootReducer'
 import { State as LaunchesState } from 'store/reducers/launches'
@@ -29,7 +30,11 @@ function LaunchesPage() {
   )
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
-  const handlerScrollEnd = () => setPage(page => page + 1); // eslint-disable-line
+  const resetAction = useDispatch<DispatchType<LaunchesResetState>>()
+  const handlerScrollEnd = () => {
+    console.log('handlerScrollEnd')
+    setPage(page => page + 1); // eslint-disable-line
+  }
 
   useEffect(() => {
     loadAction({
@@ -39,13 +44,25 @@ function LaunchesPage() {
   }, [])
 
   useEffect(() => {
-    if (page > -1) {
+    if (page > 0) {
       loadAction({
         type: LaunchesActionTypes.UPDATE,
         payload: { filters, page },
       })
     }
   }, [page])
+
+  useEffect(() => {
+    console.log('filters changed', filters)
+    if (filters) {
+      resetAction({ type: LaunchesActionTypes.RESET_STATE })
+      setPage(0)
+      loadAction({
+        type: LaunchesActionTypes.UPDATE,
+        payload: { filters, page },
+      })
+    }
+  }, [filters])
 
   return (
     <Page>

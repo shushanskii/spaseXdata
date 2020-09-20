@@ -16,7 +16,10 @@ export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
   const prevData = usePrevious(data)
   const marker = useRef(null)
   const handlerObserver = ([target]) => {
-    if (target.isIntersecting) {
+    if (
+      target.isIntersecting &&
+      wrapper.current.clientHeight < container.current.scrollHeight
+    ) {
       onScrollEnd()
     }
   }
@@ -32,12 +35,18 @@ export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
     }
   }, [data])
 
+  const wrapper = useRef(null)
+  const container = useRef(null)
+
   return (
-    <Wrapper>
+    <Wrapper ref={wrapper}>
       {loading && <Spinner color={colors.osloGray} top={'5px'} left={'5px'} />}
-      <Container>
+      <Container ref={container}>
         {data?.map((item, index) => itemsRender({ item, key: index }))}
         {data.length ? <div ref={marker}>&nbsp;</div> : null}
+        {!data.length && !loading && (
+          <Message>Oops... We found nothing</Message>
+        )}
       </Container>
     </Wrapper>
   )
@@ -56,4 +65,11 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+`
+
+const Message = styled.div`
+  position: absolute;
+  color: ${colors.clementine};
+  font-size: 32px;
+  cursor: default;
 `

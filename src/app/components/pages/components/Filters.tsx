@@ -17,9 +17,7 @@ import { OnDatesChangeProps } from '@datepicker-react/hooks/lib/useDatepicker/us
 import { formatDate } from 'utilities/formatDate'
 
 export function Filters() {
-  const { filters, setFilters } = useContext(LaunchFiltersContext)
-  const resetAction = useDispatch<DispatchType<LaunchesResetState>>()
-  const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
+  const { setFilters } = useContext(LaunchFiltersContext)
 
   const setManufacturer = useCallback(
     debounce((value) => setFilters({ manufacturer: value }), 700),
@@ -30,21 +28,11 @@ export function Filters() {
   const handlerDatesChange = ({ startDate, endDate }: OnDatesChangeProps) => {
     if (startDate && endDate) {
       setFilters({
-        start_date: formatDate(startDate),
-        end_date: formatDate(endDate),
+        start: formatDate(startDate),
+        end: formatDate(endDate),
       })
     }
   }
-
-  useEffect(() => {
-    if (filters) {
-      resetAction({ type: LaunchesActionTypes.RESET_STATE })
-      loadAction({
-        type: LaunchesActionTypes.UPDATE,
-        payload: { filters, page: 0 },
-      })
-    }
-  }, [filters])
 
   return (
     <Wrapper>

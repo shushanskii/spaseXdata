@@ -16,12 +16,16 @@ export function FiltersContextProvider<T>({
 }: React.PropsWithChildren<{
   context: React.Context<State<T>>
 }>) {
-  const [page, setPage] = useState<number>(-1)
+  const [page, setPage] = useState<number>(0)
   const [state, setState] = useState<State<T>>({
     page,
     setPage,
-    setFilters: (filters) =>
-      setState({ ...state, filters: { ...filters }, page: 0 }),
+    setFilters: (filters) => {
+      setState((state) => ({
+        ...state,
+        filters: { ...state.filters, ...filters },
+      }))
+    },
   })
 
   useEffect(() => {

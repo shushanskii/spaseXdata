@@ -18,7 +18,7 @@ export const DateSelectorTheme = {
     dateRangeStartDateInputPadding: '0 16px',
     dateRangeEndDateInputPadding: '0 16px',
     dateRangeGridTemplateColumns: '252px 40px 252px',
-    dateRangeZIndex: 0,
+    dateRangeZIndex: 1,
 
     datepickerPadding: '20px 16px 8px',
     datepickerBackground: `${colors.woodsmoke}`,

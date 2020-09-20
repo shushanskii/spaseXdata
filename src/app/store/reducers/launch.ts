@@ -1,40 +1,28 @@
 export type LoadStart<T> = T extends Types.LOAD_START ? { type: T } : never
 
 export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
-  ? { type: T; payload: { data: LaunchListItem[] } }
+  ? { type: T; payload: { data: Launch[] } }
   : never
 
 export type LoadStop<T> = T extends Types.LOAD_STOP ? { type: T } : never
 
-export type ResetState<T> = T extends Types.RESET_STATE ? { type: T } : never
-
 export enum Types {
-  LOAD_START = 'LAUNCHES_LOAD_START',
-  LOAD_SUCCESS = 'LAUNCHES_LOAD_SUCCESS',
-  LOAD_STOP = 'LAUNCHES_LOAD_STOP',
-  RESET_STATE = 'LAUNCHES_RESET_STATE',
+  LOAD_START = 'LAUNCH_LOAD_START',
+  LOAD_SUCCESS = 'LAUNCH_LOAD_SUCCESS',
+  LOAD_STOP = 'LAUNCH_LOAD_STOP',
 }
 
-export interface LaunchListItem {
-  flight_number: number
-  mission_name: string
-  launch_date_utc: string
-  payloads: {
-    nationality: string[]
-    manufacturer: string[]
-    payload_type: string[]
-  }
+export interface Launch {
+  [key: string]: unknown
 }
 
 export interface State {
   loading: boolean
-  error?: string
-  data: LaunchListItem[]
+  data?: Launch
 }
 
 const initialState: State = {
   loading: false,
-  data: [],
 }
 
 export const reducer = (
@@ -43,7 +31,7 @@ export const reducer = (
     type: Types
     payload?: {
       error?: string
-      data?: LaunchListItem[]
+      data?: Launch
     }
   }
 ): State => {
@@ -54,13 +42,10 @@ export const reducer = (
     }
     case Types.LOAD_SUCCESS: {
       const { data } = payload
-      return { ...state, data: [...state.data, ...data], loading: false }
+      return { ...state, data, loading: false }
     }
     case Types.LOAD_STOP: {
       return { ...state, loading: false }
-    }
-    case Types.RESET_STATE: {
-      return { ...state, data: [] }
     }
     default:
       return state

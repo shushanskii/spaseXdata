@@ -1,26 +1,23 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Window } from 'components/modals/components/window/Window'
 import { Caption } from 'components/modals/components/window/components/Caption'
 import { colors } from 'app/constants'
-import { ModalsContext } from 'components/contexts/ModalsContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from 'store/rootReducer'
+import { State as ErrorState } from 'store/reducers/error'
+import { DispatchType } from 'app/types'
+import { ErrorActionClear, ErrorActionTypes } from 'actions/error'
 
-interface Props {
-  onClose: (...args: any[]) => void
-}
-
-export function Error({ onClose }: Props) {
-  const {
-    modals: {
-      error: { visible, params },
-    },
-  } = useContext(ModalsContext)
-  const message = params && params.error && `${params.error}` // eslint-disable-line
+export function Error() {
+  const { error } = useSelector<State, ErrorState>((store) => store.error)
+  const clearError = useDispatch<DispatchType<ErrorActionClear>>()
+  const handlerClose = () => clearError({ type: ErrorActionTypes.CLEAR_ERROR })
 
   return (
-    <Window visible={visible} onClose={onClose}>
+    <Window visible={!!error} onClose={handlerClose}>
       <Caption>Something goes wrong...</Caption>
-      <Content>{message}</Content>
+      <Content>{error}</Content>
     </Window>
   )
 }

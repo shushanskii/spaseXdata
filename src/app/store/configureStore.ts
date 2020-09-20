@@ -6,9 +6,7 @@ import saga from 'middleware/saga'
 
 type ConfigureStore<T> = (initialState?: T) => Store<T>
 
-export const configureStore: ConfigureStore<State> = function (
-  initialState = {}
-) {
+export const configureStore: ConfigureStore<State> = function (initialState) {
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(
     rootReducer,

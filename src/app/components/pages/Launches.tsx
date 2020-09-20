@@ -7,37 +7,28 @@ import {
   LaunchesActionTypes,
   LaunchesActionUpdate,
   LaunchesFilters,
-  LaunchesResetError,
 } from 'actions/launches'
 import { State } from 'src/app/store/rootReducer'
 import { State as LaunchesState } from 'store/reducers/launches'
 import { Title } from 'components/title/Title'
 import { Launch } from 'components/list/components/Launch'
-import { Error } from 'components/modals/Error.tsx'
-import { Launch as LaunchItem } from 'store/reducers/launches'
+import { LaunchListItem } from 'store/reducers/launches'
 import {
   createFiltersContext,
   FiltersContextProvider,
 } from 'components/contexts/FiltersContext'
 import { Page, PageContentWrapper } from 'components/pages/components/Elements'
-import { ModalsContext } from 'components/contexts/ModalsContext'
 import { LaunchInfo } from 'components/modals/LaunchInfo'
 
 export const LaunchFiltersContext = createFiltersContext<LaunchesFilters>()
 
 function LaunchesPage() {
-  const { loading, data, error } = useSelector<State, LaunchesState>(
+  const { loading, data } = useSelector<State, LaunchesState>(
     (store) => store.launches
   )
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
-  const { toggleVisible } = useContext(ModalsContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
-  const resetErrorAction = useDispatch<DispatchType<LaunchesResetError>>()
-  const handlerCloseErrorModal = () =>
-    resetErrorAction({ type: LaunchesActionTypes.RESET_ERROR })
-  const handlerScrollEnd = () => {
-    setPage(page => page + 1) // eslint-disable-line
-  }
+  const handlerScrollEnd = () => setPage(page => page + 1) // eslint-disable-line
 
   useEffect(() => {
     loadAction({
@@ -55,22 +46,16 @@ function LaunchesPage() {
     }
   }, [page])
 
-  useEffect(() => {
-    toggleVisible({ name: 'error', visible: !!error, params: { error } })
-  }, [error])
-
   return (
     <Page>
       <LaunchInfo />
-      <Error onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>Launches</Title>
         <Filters />
-        <List<LaunchItem>
+        <List<LaunchListItem>
           onScrollEnd={handlerScrollEnd}
           data={data}
           loading={loading}
-          error={error}
           itemsRender={(props) => <Launch {...props} />}
         />
       </PageContentWrapper>

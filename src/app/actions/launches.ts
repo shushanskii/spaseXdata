@@ -18,10 +18,6 @@ export interface LaunchesActionUpdate {
   }
 }
 
-export interface LaunchesResetError {
-  type: LaunchesActionTypes.RESET_ERROR
-}
-
 export interface LaunchesResetState {
   type: LaunchesActionTypes.RESET_STATE
 }

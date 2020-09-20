@@ -8,24 +8,16 @@ import { Title } from 'components/title/Title'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
 import { HistoricalEvent as HistoricalEventItem } from 'store/reducers/history'
 
-import {
-  HistoryActionTypes,
-  HistoryActionUpdate,
-  HistoryResetError,
-} from 'actions/history'
-import { Error } from 'components/modals/Error'
+import { HistoryActionTypes, HistoryActionUpdate } from 'actions/history'
 import { Page, PageContentWrapper } from 'components/pages/components/Elements'
 
 export function History() {
   const [page, setPage] = useState<number>(0)
 
-  const { loading, data, error } = useSelector<State, HistoryState>(
+  const { loading, data } = useSelector<State, HistoryState>(
     (store) => store.history
   )
   const loadAction = useDispatch<DispatchType<HistoryActionUpdate>>()
-  const resetErrorAction = useDispatch<DispatchType<HistoryResetError>>()
-  const handlerCloseErrorModal = () =>
-    resetErrorAction({ type: HistoryActionTypes.RESET_ERROR })
   const handlerScrollEnd = () => setPage((page) => page + 1)
 
   useEffect(() => {
@@ -40,14 +32,12 @@ export function History() {
 
   return (
     <Page>
-      <Error onClose={handlerCloseErrorModal} />
       <PageContentWrapper>
         <Title>History</Title>
         <List<HistoricalEventItem>
           onScrollEnd={handlerScrollEnd}
           data={data}
           loading={loading}
-          error={error}
           itemsRender={(props) => <HistoricalEvent {...props} />}
         />
       </PageContentWrapper>

@@ -9,17 +9,12 @@ export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
     }
   : never
 
-export type LoadError<T> = T extends Types.LOAD_ERROR
-  ? { type: T; payload: { error: string } }
-  : never
-
-export type ResetError<T> = T extends Types.RESET_ERROR ? { type: T } : never
+export type LoadStop<T> = T extends Types.LOAD_STOP ? { type: T } : never
 
 export enum Types {
   LOAD_START = 'HISTORY_LOAD_START',
   LOAD_SUCCESS = 'HISTORY_LOAD_SUCCESS',
-  LOAD_ERROR = 'HISTORY_LOAD_ERROR',
-  RESET_ERROR = 'HISTORY_RESET_ERROR',
+  LOAD_STOP = 'HISTORY_LOAD_STOP',
 }
 
 export interface HistoricalEvent {
@@ -35,7 +30,6 @@ export interface HistoricalEvent {
 
 export interface State {
   loading: boolean
-  error?: string
   data: HistoricalEvent[]
 }
 
@@ -63,13 +57,8 @@ export const reducer = (
       const { data } = payload
       return { ...state, data: [...state.data, ...data], loading: false }
     }
-    case Types.LOAD_ERROR: {
-      const { error } = payload
-      return { ...state, error, loading: false }
-    }
-    case Types.RESET_ERROR: {
-      const { error, ...otherState } = state
-      return otherState
+    case Types.LOAD_STOP: {
+      return { ...state, loading: false }
     }
     default:
       return state

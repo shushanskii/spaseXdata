@@ -4,22 +4,18 @@ import { Switch, Route } from 'react-router-dom'
 import { Home } from 'components/pages/Home'
 import { Launches } from 'components/pages/Launches'
 import { History } from 'components/pages/History'
-import { ModalsContextProvider } from 'components/contexts/ModalsContext'
+import { Error } from 'components/modals/Error'
 
 export const App = () => {
   return (
-    <ModalsContextProvider
-      modals={{
-        error: { visible: false },
-        launchInfo: { visible: false },
-      }}
-    >
+    <>
+      <Error />
       <GlobalStyle />
       <Switch>
         <Route path={'/history'} component={History} />
         <Route path={'/launches'} component={Launches} />
         <Route path={'/'} exact={true} component={Home} />
       </Switch>
-    </ModalsContextProvider>
+    </>
   )
 }

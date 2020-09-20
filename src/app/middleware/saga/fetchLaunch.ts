@@ -1,26 +1,22 @@
 import { call, put } from 'redux-saga/effects'
+import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/launch'
 import { request } from 'utilities/request'
 import { Methods, requestConstructor } from 'utilities/requestConstructor'
-import { LIST_PAGE_LIMIT } from 'app/constants'
-import { HistoryActionUpdate } from 'actions/history'
-import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/history'
+import { LaunchActionFetch } from 'actions/launch'
 import riseError from 'middleware/saga/riseError'
 import { ErrorActionTypes } from 'actions/error'
 
-export default function* updateHistory({
-  payload: { page },
-}: HistoryActionUpdate) {
-  yield put<LoadStart<Types.LOAD_START>>({
-    type: Types.LOAD_START,
-  })
+export default function* fetchLaunch({
+  payload: { flight_number },
+}: LaunchActionFetch) {
+  yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
 
   try {
     const data = yield call(
       request,
-      requestConstructor(Methods.HISTORY, {
-        query: {
-          limit: LIST_PAGE_LIMIT,
-          offset: page * LIST_PAGE_LIMIT,
+      requestConstructor(Methods.LAUNCHES, {
+        url: {
+          flight_number,
         },
       })
     )
@@ -28,12 +24,7 @@ export default function* updateHistory({
     yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
       type: Types.LOAD_SUCCESS,
       payload: {
-        data: data.map(({ title, event_date_utc, links, details }) => ({
-          title,
-          event_date_utc,
-          links,
-          details,
-        })),
+        data,
       },
     })
   } catch (error) {

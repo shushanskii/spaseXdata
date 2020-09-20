@@ -54,19 +54,4 @@ describe('history reducer', () => {
       ],
     })
   })
-
-  it('should return state with error', () => {
-    expect(
-      history.reducer(undefined, {
-        type: history.Types.LOAD_ERROR,
-        payload: {
-          error: 'some ERROR',
-        },
-      })
-    ).toEqual({
-      loading: false,
-      data: [],
-      error: 'some ERROR',
-    })
-  })
 })

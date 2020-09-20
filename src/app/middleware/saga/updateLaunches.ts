@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import {
-  LoadError,
   LoadStart,
+  LoadStop,
   LoadSuccess,
   Types,
 } from 'store/reducers/launches'
@@ -9,6 +9,8 @@ import { LaunchesActionUpdate } from 'actions/launches'
 import { request } from 'utilities/request'
 import { Methods, requestConstructor } from 'utilities/requestConstructor'
 import { LIST_PAGE_LIMIT } from 'app/constants'
+import riseError from 'middleware/saga/riseError'
+import { ErrorActionTypes } from 'actions/error'
 
 export default function* updateLaunches({
   payload: { page, filters },
@@ -52,10 +54,12 @@ export default function* updateLaunches({
       },
     })
   } catch (error) {
-    yield put<LoadError<Types.LOAD_ERROR>>({
-      type: Types.LOAD_ERROR,
+    yield put<LoadStop<Types.LOAD_STOP>>({ type: Types.LOAD_STOP })
+
+    yield call(riseError, {
+      type: ErrorActionTypes.RISE_ERROR,
       payload: {
-        error,
+        error: `${error}` // eslint-disable-line
       },
     })
   }

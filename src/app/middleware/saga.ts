@@ -1,20 +1,22 @@
 import { all, takeEvery } from 'redux-saga/effects'
-import {
-  HistoryActionTypes,
-  HistoryActionUpdate,
-  HistoryResetError,
-} from 'actions/history'
+import { HistoryActionTypes, HistoryActionUpdate } from 'actions/history'
 import {
   LaunchesActionTypes,
   LaunchesActionUpdate,
-  LaunchesResetError,
   LaunchesResetState,
 } from 'actions/launches'
+import { LaunchActionFetch, LaunchActionTypes } from 'actions/launch'
+import {
+  ErrorActionClear,
+  ErrorActionRise,
+  ErrorActionTypes,
+} from 'actions/error'
 import updateHistory from 'middleware/saga/updateHistory'
 import updateLaunches from 'middleware/saga/updateLaunches'
-import resetHistoryError from 'middleware/saga/resetHistoryError'
-import resetLaunchesError from 'middleware/saga/resetLaunchesError'
 import resetLaunchesState from 'middleware/saga/resetLaunchesState'
+import fetchLaunch from 'middleware/saga/fetchLaunch'
+import riseError from 'middleware/saga/riseError'
+import clearError from 'middleware/saga/clearError'
 
 export default function* saga() {
   yield all([
@@ -22,22 +24,19 @@ export default function* saga() {
       HistoryActionTypes.UPDATE,
       updateHistory
     ),
-    yield takeEvery<HistoryResetError>(
-      HistoryActionTypes.RESET_ERROR,
-      resetHistoryError
-    ),
     // launches sagas
     yield takeEvery<LaunchesActionUpdate>(
       LaunchesActionTypes.UPDATE,
       updateLaunches
     ),
-    yield takeEvery<LaunchesResetError>(
-      LaunchesActionTypes.RESET_ERROR,
-      resetLaunchesError
-    ),
     yield takeEvery<LaunchesResetState>(
       LaunchesActionTypes.RESET_STATE,
       resetLaunchesState
     ),
+    // launch info
+    yield takeEvery<LaunchActionFetch>(LaunchActionTypes.FETCH, fetchLaunch),
+    // errors
+    yield takeEvery<ErrorActionRise>(ErrorActionTypes.RISE_ERROR, riseError),
+    yield takeEvery<ErrorActionClear>(ErrorActionTypes.CLEAR_ERROR, clearError),
   ])
 }

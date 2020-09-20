@@ -6,21 +6,12 @@ import { usePrevious } from 'utilities/usePrevious'
 
 export interface Props<T> {
   onScrollEnd: () => void
-  onError?: (error: string) => void
   loading: boolean
-  error?: string
   data?: any[]
   itemsRender: (props: { item: T; key: string | number }) => void
 }
 
-export function List<T>({
-  onError,
-  onScrollEnd,
-  error,
-  data,
-  loading,
-  itemsRender,
-}: Props<T>) {
+export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
   const prevData = usePrevious(data)
   const marker = useRef(null)
   const handlerObserver = ([target]) => {
@@ -39,12 +30,6 @@ export function List<T>({
       observer.observe(marker.current)
     }
   }, [data])
-
-  useEffect(() => {
-    if (onError && error) {
-      onError(error)
-    }
-  }, [error])
 
   return (
     <Wrapper>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 import styled from 'styled-components'
 import { colors, MEDIA } from 'app/constants'
@@ -27,7 +27,6 @@ export function Window({
     e.stopPropagation()
 
   const handlerModalClose = () => {
-    console.log('handlerModalClose')
     if (onClose) {
       onClose()
     }

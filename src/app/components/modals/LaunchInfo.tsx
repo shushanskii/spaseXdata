@@ -2,28 +2,30 @@ import React, { useContext, useEffect } from 'react'
 import { Window } from 'components/modals/components/window/Window'
 import styled from 'styled-components'
 import { colors } from 'app/constants'
-import { ModalsContext } from 'components/contexts/ModalsContext'
 import { Caption } from 'components/modals/components/window/components/Caption'
+import { useDispatch, useSelector } from 'react-redux'
+import { DispatchType } from 'app/types'
+import { LaunchActionFetch, LaunchActionTypes } from 'actions/launch'
+import { State } from 'store/rootReducer'
+import { State as LaunchState } from 'store/reducers/launch'
 
 export function LaunchInfo() {
-  const {
-    modals: {
-      launchInfo: { visible, params },
-    },
-    toggleVisible,
-  } = useContext(ModalsContext)
-  const handlerClose = () => {
-    console.log('handlerClose')
-  }
+  const { loading, data } = useSelector<State, LaunchState>(
+    (store) => store.launch
+  )
+  const fetchAction = useDispatch<DispatchType<LaunchActionFetch>>()
 
-  useEffect(() => {
-    console.log('LaunchInfo params', params)
-  }, [params])
+  // useEffect(() => {
+  //     fetchAction({
+  //       type: LaunchActionTypes.FETCH,
+  //       payload: { flight_number: params.flight_number },
+  //     })
+  // }, [])
 
   return (
-    <Window visible={visible} onClose={handlerClose}>
+    <Window visible={false} onClose={() => console.log('LaunchInfo close')}>
       <Caption>Launch Info</Caption>
-      <Content>Here should be info</Content>
+      <Content>{data && JSON.stringify(data)}</Content>
     </Window>
   )
 }

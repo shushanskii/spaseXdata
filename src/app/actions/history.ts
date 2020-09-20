@@ -9,7 +9,3 @@ export interface HistoryActionUpdate {
     page: number
   }
 }
-
-export interface HistoryResetError {
-  type: HistoryActionTypes.RESET_ERROR
-}

@@ -53,19 +53,4 @@ describe('launches reducer', () => {
       ],
     })
   })
-
-  it('should return state with error', () => {
-    expect(
-      launches.reducer(undefined, {
-        type: launches.Types.LOAD_ERROR,
-        payload: {
-          error: 'some ERROR',
-        },
-      })
-    ).toEqual({
-      loading: false,
-      data: [],
-      error: 'some ERROR',
-    })
-  })
 })

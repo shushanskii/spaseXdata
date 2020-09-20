@@ -28,7 +28,7 @@ export type History<T> = T extends Methods.HISTORY
 export type Launches<T> = T extends Methods.LAUNCHES
   ? {
       url?: {
-        [key: string]: string
+        flight_number?: number
       }
       query?: CommonQueryParams & {
         start?: string
@@ -43,16 +43,16 @@ export const requestConstructor: ApiRequestString<
   History<Methods.HISTORY> | Launches<Methods.LAUNCHES>
 > = (method: Methods, params) => {
   const { url, query } = params
-
-  return `${domain}/${method.concat(
-    Object.values(url || {})
-      .map((value) => value)
-      .join('/')
-  )}?${Object.entries(query || {})
+  const urlParams = Object.values(url || {})
+    .map((value) => value)
+    .join('/')
+  const getParams = Object.entries(query || {})
     .filter(([, value]) => value)
     .map(
       ([key, value]) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     )
-    .join('&')}`
+    .join('&')
+
+  return `${domain}/${method}/${urlParams}?${getParams}`
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { LaunchListItem } from 'store/reducers/launches'
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Date,
   Description,
 } from 'components/list/components/components/Elements'
+import { LaunchInfoContext } from 'components/contexts/LaunchInfoContext'
 
 interface Props {
   item: LaunchListItem
@@ -21,10 +22,11 @@ export function Launch({
     payloads: { nationality, manufacturer, payload_type },
   },
 }: Props) {
+  const { showLaunchInfo } = useContext(LaunchInfoContext)
   const [, year, time] = /(.*)T(.*)\.(?:.*)Z/.exec(launch_date_utc)
 
   const handlerClick = () => {
-    console.log('flight_number', flight_number)
+    showLaunchInfo(flight_number)
   }
 
   return (

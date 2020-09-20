@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Window } from 'components/modals/components/window/Window'
 import styled from 'styled-components'
 import { colors } from 'app/constants'
@@ -8,22 +8,31 @@ import { DispatchType } from 'app/types'
 import { LaunchActionFetch, LaunchActionTypes } from 'actions/launch'
 import { State } from 'store/rootReducer'
 import { State as LaunchState } from 'store/reducers/launch'
+import { LaunchInfoContext } from 'components/contexts/LaunchInfoContext'
 
 export function LaunchInfo() {
+  const [visible, setVisible] = useState<boolean>(false)
+  const { flightNumber, showLaunchInfo } = useContext(LaunchInfoContext)
   const { loading, data } = useSelector<State, LaunchState>(
     (store) => store.launch
   )
   const fetchAction = useDispatch<DispatchType<LaunchActionFetch>>()
+  const handlerClose = () => showLaunchInfo(undefined)
 
-  // useEffect(() => {
-  //     fetchAction({
-  //       type: LaunchActionTypes.FETCH,
-  //       payload: { flight_number: params.flight_number },
-  //     })
-  // }, [])
+  useEffect(() => {
+    if (!isNaN(flightNumber)) {
+      setVisible(true)
+      fetchAction({
+        type: LaunchActionTypes.FETCH,
+        payload: { flight_number: flightNumber },
+      })
+    } else {
+      setVisible(false)
+    }
+  }, [flightNumber])
 
   return (
-    <Window visible={false} onClose={() => console.log('LaunchInfo close')}>
+    <Window visible={visible} onClose={handlerClose}>
       <Caption>Launch Info</Caption>
       <Content>{data && JSON.stringify(data)}</Content>
     </Window>

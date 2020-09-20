@@ -19,6 +19,7 @@ import {
 } from 'components/contexts/FiltersContext'
 import { Page, PageContentWrapper } from 'components/pages/components/Elements'
 import { LaunchInfo } from 'components/modals/LaunchInfo'
+import { LaunchInfoContextProvider } from 'components/contexts/LaunchInfoContext'
 
 export const LaunchFiltersContext = createFiltersContext<LaunchesFilters>()
 
@@ -28,7 +29,7 @@ function LaunchesPage() {
   )
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
-  const handlerScrollEnd = () => setPage(page => page + 1) // eslint-disable-line
+  const handlerScrollEnd = () => setPage(page => page + 1); // eslint-disable-line
 
   useEffect(() => {
     loadAction({
@@ -65,6 +66,8 @@ function LaunchesPage() {
 
 export const Launches = () => (
   <FiltersContextProvider<LaunchesFilters> context={LaunchFiltersContext}>
-    <LaunchesPage />
+    <LaunchInfoContextProvider>
+      <LaunchesPage />
+    </LaunchInfoContextProvider>
   </FiltersContextProvider>
 )

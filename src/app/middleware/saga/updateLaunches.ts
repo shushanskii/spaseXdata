@@ -6,28 +6,15 @@ import {
   Types,
 } from 'store/reducers/launches'
 import { LaunchesActionUpdate } from 'actions/launches'
-import { request } from 'utilities/request'
-import { Methods, requestConstructor } from 'utilities/requestConstructor'
-import { LIST_PAGE_LIMIT } from 'app/constants'
 import riseError from 'middleware/saga/riseError'
 import { ErrorActionTypes } from 'actions/error'
+import { API } from 'api/API'
 
-export default function* updateLaunches({
-  payload: { page, filters },
-}: LaunchesActionUpdate) {
+export default function* updateLaunches({ payload }: LaunchesActionUpdate) {
   yield put<LoadStart<Types.LOAD_START>>({ type: Types.LOAD_START })
 
   try {
-    const data = yield call(
-      request,
-      requestConstructor(Methods.LAUNCHES, {
-        query: {
-          ...filters,
-          limit: LIST_PAGE_LIMIT,
-          offset: page * LIST_PAGE_LIMIT,
-        },
-      })
-    )
+    const data = yield call(API.fetchLaunches, payload)
 
     yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
       type: Types.LOAD_SUCCESS,

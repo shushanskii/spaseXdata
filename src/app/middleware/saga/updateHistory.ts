@@ -1,11 +1,9 @@
 import { call, put } from 'redux-saga/effects'
-import { request } from 'utilities/request'
-import { Methods, requestConstructor } from 'utilities/requestConstructor'
-import { LIST_PAGE_LIMIT } from 'app/constants'
 import { HistoryActionUpdate } from 'actions/history'
 import { LoadStart, LoadStop, LoadSuccess, Types } from 'store/reducers/history'
 import riseError from 'middleware/saga/riseError'
 import { ErrorActionTypes } from 'actions/error'
+import { API } from 'api/API'
 
 export default function* updateHistory({
   payload: { page },
@@ -15,15 +13,7 @@ export default function* updateHistory({
   })
 
   try {
-    const data = yield call(
-      request,
-      requestConstructor(Methods.HISTORY, {
-        query: {
-          limit: LIST_PAGE_LIMIT,
-          offset: page * LIST_PAGE_LIMIT,
-        },
-      })
-    )
+    const data = yield call(API.fetchHistory, page)
 
     yield put<LoadSuccess<Types.LOAD_SUCCESS>>({
       type: Types.LOAD_SUCCESS,

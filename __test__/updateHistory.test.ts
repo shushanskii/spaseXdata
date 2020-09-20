@@ -1,6 +1,6 @@
 import updateHistory from 'middleware/saga/updateHistory'
 import { HistoryActionTypes } from 'actions/history'
-import * as req from 'utilities/request'
+import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'
 import dummyHistory from './assetes/dummyHistory.json'
 

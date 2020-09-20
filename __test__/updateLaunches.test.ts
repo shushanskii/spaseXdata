@@ -1,6 +1,6 @@
 import updateLaunches from 'middleware/saga/updateLaunches'
 import { LaunchesActionTypes } from 'actions/launches'
-import * as req from 'utilities/request'
+import * as req from 'api/helpers/request'
 import { runSaga } from 'redux-saga'
 // @ts-ignore
 import dummyLaunches from './assetes/dummyLaunches.json'

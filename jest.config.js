@@ -34,6 +34,7 @@ module.exports = {
     "src/app/components",
     "src/app/store",
     "src/app/utilities",
+    "src/app/api",
     "node_modules"
   ],
   moduleNameMapper: {
@@ -43,6 +44,7 @@ module.exports = {
     "^@actions\/(.*)$": "<rootDir>/src/app/actions/$1",
     "^@components\/(.*)$": "<rootDir>/src/app/components/$1",
     "^@store\/(.*)$": "<rootDir>/src/app/store/$1",
-    "^@utilities\/(.*)$": "<rootDir>/src/app/utilities/$1"
+    "^@utilities\/(.*)$": "<rootDir>/src/app/utilities/$1",
+    "^@api\/(.*)$": "<rootDir>/src/app/api/$1"
   },
 };

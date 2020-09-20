@@ -36,6 +36,9 @@
       ],
       "utilities/*": [
         "./app/utilities/*"
+      ],
+      "api/*": [
+        "./app/api/*"
       ]
     }
   }

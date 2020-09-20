@@ -26,6 +26,7 @@ module.exports = {
       components: `${sourcePath}app/components/`,
       store: `${sourcePath}app/store/`,
       utilities: `${sourcePath}app/utilities/`,
+      api: `${sourcePath}app/api/`,
     }
   },
   module: {

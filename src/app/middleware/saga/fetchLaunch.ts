@@ -52,7 +52,7 @@ export function* fetchLaunch({
     yield call(errorRise, {
       type: ErrorActionTypes.RISE_ERROR,
       payload: {
-        error: `${error}` // eslint-disable-line
+        error: `${error.message}` // eslint-disable-line
       },
     })
   }

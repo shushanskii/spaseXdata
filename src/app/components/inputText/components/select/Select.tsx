@@ -1,19 +1,21 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Option } from 'components/inputText/components/Select/Option'
+import { Option } from 'components/inputText/components/select/components/Option'
 
 interface Props {
   visible: boolean
-  options: Array<{ key: string | number; value: string | number }> | string[]
+  options: { key: string | number; value: string | number }[]
+  onSelect: (value: string | number) => void
 }
 
-function Select(props: Props) {
-  const { visible, options } = props
+function Select({ visible, options, onSelect }: Props) {
   return (
     <Container visible={visible}>
-      {(options as any).map((option) => {
-        return <Option key={option}>{option}</Option>
-      })}
+      {options.map(({ key, value }, index) => (
+        <Option onSelect={onSelect} value={key} key={`${index}-${key}`}>
+          {value}
+        </Option>
+      ))}
     </Container>
   )
 }

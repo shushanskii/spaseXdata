@@ -4,13 +4,6 @@ import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
 import { InputText } from 'components/inputText/InputText'
 import { LaunchFiltersContext } from 'components/pages/Launches'
-import { useDispatch } from 'react-redux'
-import { DispatchType } from 'app/types'
-import {
-  LaunchesActionTypes,
-  LaunchesActionUpdate,
-  LaunchesResetState,
-} from 'actions/launches'
 import { debounce } from 'lodash'
 import { DateSelector } from 'components/dateSelector/DateSelector'
 import { OnDatesChangeProps } from '@datepicker-react/hooks/lib/useDatepicker/useDatepicker'
@@ -34,18 +27,32 @@ export function Filters() {
     }
   }
 
+  const handlerOrbitChange = (value) => {
+    console.log('handlerOrbitChange', value)
+  }
+
   return (
-    <Wrapper>
+    <Container>
       <DateSelector onDatesChange={handlerDatesChange} />
-      <Input
-        placeholder={'Manufacturer'}
-        onChange={handlerManufacturerChange}
-      />
-    </Wrapper>
+      <Wrapper>
+        <Input
+          placeholder={'Manufacturer'}
+          onChange={handlerManufacturerChange}
+        />
+        <Select
+          placeholder={'Orbit'}
+          onSelect={handlerOrbitChange}
+          options={[
+            { key: 'A', value: 'A' },
+            { key: 'B', value: 'B' },
+          ]}
+        />
+      </Wrapper>
+    </Container>
   )
 }
 
-const Wrapper = styled.div`
+const Container = styled.div`
   width: 100%;
   min-height: 250px;
   border-radius: 6px;
@@ -55,8 +62,22 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 `
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const Input = styled(InputText)`
   width: 45%;
+  margin-left: 10px;
+`
+
+const Select = styled(InputText)`
+  width: 45%;
+  margin-right: 10px;
 `

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
-import Select from 'components/inputText/components/Select/Select'
+import Select from 'components/inputText/components/select/Select'
 import { colors } from 'app/constants'
 
 interface Props {
@@ -8,7 +8,8 @@ interface Props {
   value?: string
   onChange?: (value: string) => void
   onClick?: (...args: any[]) => void
-  options?: { key: string | number; value: string | number }[] | string[]
+  onSelect?: (value: string | number) => void
+  options?: { key: string | number; value: string | number }[]
   disabled?: boolean
   focused?: boolean
   error?: string
@@ -17,6 +18,7 @@ interface Props {
 
 interface State {
   focused: boolean
+  optionsVisible?: boolean
   value?: string
 }
 
@@ -28,6 +30,7 @@ export function InputText({
   focused: propsFocused,
   onChange,
   onClick,
+  onSelect,
   error,
   placeholder,
   disabled,
@@ -41,9 +44,15 @@ export function InputText({
 
   const inputRef = React.createRef<HTMLInputElement>()
   const [state, setState] = useState<State>(initialState)
-  const { focused, value } = state
+  const { focused, value, optionsVisible } = state
   const handlerFocus = () =>
-    !disabled && !propsFocused && setState({ ...state, focused: true })
+    !disabled &&
+    !propsFocused &&
+    setState({
+      ...state,
+      focused: true,
+      optionsVisible: options && !!options.length,
+    })
 
   const handlerBlur = () => {
     if (!propsFocused && !value) {
@@ -70,6 +79,18 @@ export function InputText({
     }
   }
 
+  const handlerSelect = (value: string | number) => {
+    setState({
+      ...state,
+      value: `${value}`,
+      focused: true,
+      optionsVisible: false,
+    })
+    if (onSelect) {
+      onSelect(value)
+    }
+  }
+
   React.useEffect(() => {
     setState({ ...state, focused: propsFocused })
   }, [propsFocused])
@@ -80,6 +101,7 @@ export function InputText({
         onFocus={handlerFocus}
         onBlur={handlerBlur}
         onClick={handlerClick}
+        optionsVisible={optionsVisible}
         focused={focused}
         error={!!error}
         disabled={disabled}
@@ -95,7 +117,13 @@ export function InputText({
         <Placeholder focused={focused} disabled={disabled}>
           {placeholder}
         </Placeholder>
-        {options && <Select visible={!!focused} options={options} />}
+        {options && (
+          <Select
+            onSelect={handlerSelect}
+            visible={optionsVisible}
+            options={options}
+          />
+        )}
       </Container>
       {!!error && <ErrorElement>{error}</ErrorElement>}
     </div>
@@ -115,14 +143,15 @@ const Container = styled.div<{
   focused: boolean
   error: boolean
   disabled: boolean
+  optionsVisible?: boolean
   isSelect?: boolean
 }>`
   width: 100%;
   height: 56px;
   border-radius: 6px;
-  ${({ isSelect, focused }) =>
+  ${({ isSelect, optionsVisible }) =>
     isSelect &&
-    focused &&
+    optionsVisible &&
     css`
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;

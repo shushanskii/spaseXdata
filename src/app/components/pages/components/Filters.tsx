@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
-import { colors } from 'app/constants'
+import { colors, MEDIA, WIDTHS } from 'app/constants'
 import { InputText } from 'components/inputText/InputText'
 import { LaunchFiltersContext } from 'components/pages/Launches'
 import { debounce } from 'lodash'
@@ -55,24 +55,30 @@ export function Filters() {
 
   return (
     <Container>
-      <DateSelector onDatesChange={handlerDatesChange} />
-      <Input
-        placeholder={'Manufacturer'}
-        onChange={handlerManufacturerChange}
-      />
-      <Select
-        disabled={loading}
-        placeholder={'Possible Orbit'}
-        onSelect={handlerOrbitSelect}
-        options={Object.keys(data).map((key) => ({ key, value: key }))}
-      />
-      {orbit && (
-        <Select
-          placeholder={'Rocket'}
-          onSelect={handlerRocketSelect}
-          options={data[orbit].map((value) => ({ key: value, value }))}
+      <TopWrapper>
+        <Manufacturer
+          placeholder={'Manufacturer'}
+          onChange={handlerManufacturerChange}
         />
-      )}
+        <DateSelectorWrapper>
+          <DateSelector onDatesChange={handlerDatesChange} />
+        </DateSelectorWrapper>
+      </TopWrapper>
+      <BottomWrapper>
+        <Orbits
+          disabled={loading}
+          placeholder={'Possible Orbit'}
+          onSelect={handlerOrbitSelect}
+          options={Object.keys(data).map((key) => ({ key, value: key }))}
+        />
+        {orbit && (
+          <Rockets
+            placeholder={'Rocket'}
+            onSelect={handlerRocketSelect}
+            options={data[orbit].map((value) => ({ key: value, value }))}
+          />
+        )}
+      </BottomWrapper>
     </Container>
   )
 }
@@ -89,18 +95,70 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Wrapper = styled.div`
+const TopWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  ${MEDIA.lessThan('tablet')`
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 220px;
+  `}
+`
+const BottomWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  ${MEDIA.lessThan('tablet')`
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+  `}
 `
 
-const Input = styled(InputText)`
-  width: 100%;
+// set date picker width to 100%
+const DateSelectorWrapper = styled.div`
+  ${MEDIA.lessThan('tablet')`
+    width: 100%;
+    div {
+      width: 100%;
+      &:first-child {
+        width: 100%;
+      }
+    }
+  `}
 `
 
-const Select = styled(InputText)`
+const Manufacturer = styled(InputText)`
   width: 100%;
+  margin-right: 30px;
+
+  ${MEDIA.lessThan('tablet')`
+      margin: 0;
+  `}
+`
+
+const Orbits = styled(InputText)`
+  width: 100%;
+
+  ${MEDIA.lessThan('tablet')`
+      margin-top: 25px;
+  `}
+`
+
+const Rockets = styled(InputText)`
+  width: 100%;
+  margin-left: 30px;
+
+  ${MEDIA.lessThan('tablet')`
+    margin-left: 0;
+    margin-top: 25px;
+  `}
 `

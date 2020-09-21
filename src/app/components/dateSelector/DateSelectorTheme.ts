@@ -1,23 +1,27 @@
-import { colors } from 'app/constants'
+import { colors, WIDTHS } from 'app/constants'
 import hexToRgba from 'hex-to-rgba'
 
 export const DateSelectorTheme = {
+  breakpoints: [WIDTHS.TABLET, WIDTHS.DESKTOP],
   reactDatepicker: {
-    daySize: [36, 40],
+    daySize: 40,
     inputFontWeight: 'normal',
     inputFontSize: '16px',
     inputColor: `${colors.white}`,
     inputPlaceholderFontWeight: '16px',
-    inputBackground: 'transparent',
-    inputLabelBackground: 'transparent',
+    inputBackground: 'none',
+    inputLabelBackground: 'none',
     inputLabelBorder: `solid 1px ${colors.osloGray}`,
     inputLabelBorderRadius: '6px',
     inputMinHeight: '54px',
     inputActiveBoxShadow: `0px 0px 5px 2px ${colors.white}`,
     inputWidth: '100%',
+
+    datepickerWidth: '1000px',
     dateRangeStartDateInputPadding: '0 16px',
     dateRangeEndDateInputPadding: '0 16px',
-    dateRangeGridTemplateColumns: '252px 40px 252px',
+    dateRangeGridTemplateColumns: ['100%', '117px 30px 117px'],
+    dateRangeGridTemplateRows: ['56px 30px 56px', '56px'],
     dateRangeZIndex: 1,
 
     datepickerPadding: '20px 16px 8px',

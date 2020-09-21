@@ -14,7 +14,7 @@ module.exports = {
       "tsConfig": "tsconfig.json"
     }
   },
-  collectCoverage: true,
+  collectCoverage: false,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   collectCoverageFrom: [

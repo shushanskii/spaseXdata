@@ -11,6 +11,7 @@ const successDispatched = [
     payload: {
       data: [
         {
+          flight_number: 11,
           launch_date_utc: '2013-09-29T16:00:00.000Z',
           mission_name: 'CASSIOPE',
           payloads: {
@@ -28,8 +29,13 @@ const successDispatched = [
 const errorDispatched = [
   { type: 'LAUNCHES_LOAD_START' },
   {
-    payload: { error: 'SOME ERROR' },
-    type: 'LAUNCHES_LOAD_ERROR',
+    type: 'LAUNCHES_LOAD_STOP',
+  },
+  {
+    type: 'SET_ERROR',
+    payload: {
+      error: 'undefined',
+    },
   },
 ]
 
@@ -54,7 +60,7 @@ describe('updateLaunches saga', () => {
 
     expect(request).toHaveBeenCalledTimes(1)
     expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/launches?limit=10&offset=990'
+      'https://api.spacexdata.com/v3/launches/?limit=10&offset=990'
     )
     expect(dispatched).toEqual(successDispatched)
     request.mockClear()
@@ -80,7 +86,7 @@ describe('updateLaunches saga', () => {
 
     expect(request).toHaveBeenCalledTimes(1)
     expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/launches?limit=10&offset=990'
+      'https://api.spacexdata.com/v3/launches/?limit=10&offset=990'
     )
     expect(dispatched).toEqual(errorDispatched)
     request.mockClear()

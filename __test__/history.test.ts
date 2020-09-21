@@ -3,7 +3,7 @@ import * as history from 'store/reducers/history'
 describe('history reducer', () => {
   it('should return initial state', () => {
     expect(history.reducer(undefined, {} as any)).toEqual({
-      loading: false,
+      loading: true,
       data: [],
     })
   })

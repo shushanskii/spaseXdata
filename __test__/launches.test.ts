@@ -3,7 +3,7 @@ import * as launches from 'store/reducers/launches'
 describe('launches reducer', () => {
   it('should return initial state', () => {
     expect(launches.reducer(undefined, {} as any)).toEqual({
-      loading: false,
+      loading: true,
       data: [],
     })
   })
@@ -42,6 +42,7 @@ describe('launches reducer', () => {
       loading: false,
       data: [
         {
+          flight_number: 9,
           mission_name: 'Some Name',
           launch_date_utc: 'some-utc-date',
           payloads: {

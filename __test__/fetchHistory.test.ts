@@ -29,9 +29,10 @@ const successDispatched = [
 
 const errorDispatched = [
   { type: 'HISTORY_LOAD_START' },
+  { type: 'HISTORY_LOAD_STOP' },
   {
-    payload: { error: 'SOME ERROR' },
-    type: 'HISTORY_LOAD_ERROR',
+    type: 'SET_ERROR',
+    payload: { error: 'undefined' },
   },
 ]
 
@@ -56,7 +57,7 @@ describe('updateHistory saga', () => {
 
     expect(request).toHaveBeenCalledTimes(1)
     expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/history?limit=10&offset=990'
+      'https://api.spacexdata.com/v3/history/?limit=10&offset=990'
     )
     expect(dispatched).toEqual(successDispatched)
     request.mockClear()
@@ -82,7 +83,7 @@ describe('updateHistory saga', () => {
 
     expect(request).toHaveBeenCalledTimes(1)
     expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/history?limit=10&offset=990'
+      'https://api.spacexdata.com/v3/history/?limit=10&offset=990'
     )
     expect(dispatched).toEqual(errorDispatched)
     request.mockClear()

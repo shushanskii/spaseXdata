@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { Option } from 'components/inputText/components/select/components/Option'
+import { colors } from 'app/constants'
 
 interface Props {
   visible: boolean
@@ -8,9 +9,12 @@ interface Props {
   onSelect: (value: string | number) => void
 }
 
-function Select({ visible, options, onSelect }: Props) {
+export function Select({ visible, options, onSelect }: Props) {
   return (
     <Container visible={visible}>
+      <Option onSelect={onSelect} value={''}>
+        <Reset>Reset</Reset>
+      </Option>
       {options.map(({ key, value }, index) => (
         <Option onSelect={onSelect} value={key} key={`${index}-${key}`}>
           {value}
@@ -38,4 +42,7 @@ const Container = styled.div<{ visible: boolean }>`
       filter: alpha(opacity=100);
     `}
 `
-export default Select
+
+const Reset = styled.span`
+  color: ${colors.osloGray};
+`

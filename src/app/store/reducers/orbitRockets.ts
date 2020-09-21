@@ -1,49 +1,39 @@
 export type LoadStart<T> = T extends Types.LOAD_START ? { type: T } : never
 
 export type LoadSuccess<T> = T extends Types.LOAD_SUCCESS
-  ? {
-      type: T
-      payload: {
-        data: any[]
-      }
-    }
+  ? { type: T; payload: { data: OrbitRocket } }
   : never
 
 export type LoadStop<T> = T extends Types.LOAD_STOP ? { type: T } : never
 
 export enum Types {
-  LOAD_START = 'HISTORY_LOAD_START',
-  LOAD_SUCCESS = 'HISTORY_LOAD_SUCCESS',
-  LOAD_STOP = 'HISTORY_LOAD_STOP',
+  LOAD_START = 'ORBIT_ROCKETS_LOAD_START',
+  LOAD_SUCCESS = 'ORBIT_ROCKETS_LOAD_SUCCESS',
+  LOAD_STOP = 'ORBIT_ROCKETS_LOAD_STOP',
 }
 
-export interface HistoricalEvent {
-  title: string
-  event_date_utc: string
-  details: string
-  links: {
-    reddit: string | null
-    article: string
-    wikipedia: string
-  }
+type Rocket = string
+
+export interface OrbitRocket {
+  [key: string]: Rocket[]
 }
 
 export interface State {
   loading: boolean
-  data: HistoricalEvent[]
+  data: OrbitRocket
 }
 
 const initialState: State = {
   loading: true,
-  data: [],
+  data: {},
 }
 
 export const reducer = (
   state = initialState,
   action: {
     type: Types
-    payload?: {
-      data?: any[]
+    payload: {
+      data: OrbitRocket
     }
   }
 ): State => {
@@ -54,7 +44,7 @@ export const reducer = (
     }
     case Types.LOAD_SUCCESS: {
       const { data } = payload
-      return { ...state, data: [...state.data, ...data], loading: false }
+      return { ...state, data, loading: false }
     }
     case Types.LOAD_STOP: {
       return { ...state, loading: false }

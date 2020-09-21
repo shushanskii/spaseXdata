@@ -38,8 +38,11 @@ const fetchLaunch = (flight_number: number) =>
     })
   )
 
+const fetchRockets = () => request(requestConstructor(Methods.ROCKETS, {}))
+
 export const API = {
   fetchHistory,
   fetchLaunches,
   fetchLaunch,
+  fetchRockets,
 }

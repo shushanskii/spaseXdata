@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
-import Select from 'components/inputText/components/select/Select'
+import { Select } from 'components/inputText/components/select/Select'
 import { colors } from 'app/constants'
 
 interface Props {
@@ -55,15 +55,17 @@ export function InputText({
     })
 
   const handlerBlur = () => {
-    if (!propsFocused && !value) {
-      setState({ ...state, focused: false })
-    }
+    setState({ ...state, focused: !!value, optionsVisible: false })
   }
 
   const handlerClick = () => {
     if (!disabled && !propsFocused && !focused) {
       inputRef.current.focus()
-      setState({ ...state, focused: true })
+      setState({
+        ...state,
+        focused: true,
+        optionsVisible: options && !!options.length,
+      })
     }
 
     if (!disabled && onClick) {
@@ -83,9 +85,10 @@ export function InputText({
     setState({
       ...state,
       value: `${value}`,
-      focused: true,
+      focused: !!value,
       optionsVisible: false,
     })
+
     if (onSelect) {
       onSelect(value)
     }

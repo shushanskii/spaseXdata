@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DispatchType } from 'app/types'
 import {
   LaunchesActionTypes,
-  LaunchesActionUpdate,
+  LaunchesActionFetch,
   LaunchesFilters,
   LaunchesResetState,
 } from 'actions/launches'
@@ -29,7 +29,7 @@ function LaunchesPage() {
     (store) => store.launches
   )
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
-  const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
+  const loadAction = useDispatch<DispatchType<LaunchesActionFetch>>()
   const resetAction = useDispatch<DispatchType<LaunchesResetState>>()
   const handlerScrollEnd = () => setPage(page => page + 1); // eslint-disable-line
 

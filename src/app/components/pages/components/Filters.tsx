@@ -8,14 +8,28 @@ import { debounce } from 'lodash'
 import { DateSelector } from 'components/dateSelector/DateSelector'
 import { OnDatesChangeProps } from '@datepicker-react/hooks/lib/useDatepicker/useDatepicker'
 import { formatDate } from 'utilities/formatDate'
+import { useDispatch, useSelector } from 'react-redux'
+import { DispatchType } from 'app/types'
+import {
+  OrbitRocketsActionFetch,
+  OrbitRocketsActionTypes,
+} from 'actions/orbitRockets'
+import { State } from 'store/rootReducer'
+import { State as OrbitRocketsState } from 'store/reducers/orbitRockets'
 
 export function Filters() {
+  const { loading, data } = useSelector<State, OrbitRocketsState>(
+    (store) => store.orbitRocket
+  )
+
   const { setFilters } = useContext(LaunchFiltersContext)
 
   const setManufacturer = useCallback(
     debounce((value) => setFilters({ manufacturer: value }), 700),
     []
   )
+  const loadOrbitRockets = useDispatch<DispatchType<OrbitRocketsActionFetch>>()
+
   const handlerManufacturerChange = (value) => setManufacturer(value)
 
   const handlerDatesChange = ({ startDate, endDate }: OnDatesChangeProps) => {
@@ -27,9 +41,15 @@ export function Filters() {
     }
   }
 
+  console.log('OrbitRocketsState', data)
+
   const handlerOrbitChange = (value) => {
     console.log('handlerOrbitChange', value)
   }
+
+  useEffect(() => {
+    loadOrbitRockets({ type: OrbitRocketsActionTypes.FETCH })
+  }, [])
 
   return (
     <Container>
@@ -40,12 +60,9 @@ export function Filters() {
           onChange={handlerManufacturerChange}
         />
         <Select
-          placeholder={'Orbit'}
+          placeholder={'Possible Orbit'}
           onSelect={handlerOrbitChange}
-          options={[
-            { key: 'A', value: 'A' },
-            { key: 'B', value: 'B' },
-          ]}
+          options={Object.keys(data).map((key) => ({ key, value: key }))}
         />
       </Wrapper>
     </Container>

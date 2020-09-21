@@ -8,7 +8,7 @@ import { Title } from 'components/title/Title'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
 import { HistoricalEvent as HistoricalEventItem } from 'store/reducers/history'
 
-import { HistoryActionTypes, HistoryActionUpdate } from 'actions/history'
+import { HistoryActionTypes, HistoryActionFetch } from 'actions/history'
 import { Page, PageContentWrapper } from 'components/pages/components/Elements'
 
 export function History() {
@@ -17,7 +17,7 @@ export function History() {
   const { loading, data } = useSelector<State, HistoryState>(
     (store) => store.history
   )
-  const loadAction = useDispatch<DispatchType<HistoryActionUpdate>>()
+  const loadAction = useDispatch<DispatchType<HistoryActionFetch>>()
   const handlerScrollEnd = () => setPage((page) => page + 1)
 
   useEffect(() => {

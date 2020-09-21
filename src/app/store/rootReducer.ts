@@ -4,6 +4,7 @@ import * as Launches from 'store/reducers/launches'
 import * as Launch from 'store/reducers/launch'
 import * as Error from 'store/reducers/error'
 import * as RequestLog from 'store/reducers/requestLog'
+import * as OrbitRocket from 'store/reducers/orbitRockets'
 
 export interface State {
   history: History.State
@@ -11,6 +12,7 @@ export interface State {
   launch: Launch.State
   error: Error.State
   requestLog: RequestLog.State
+  orbitRocket: OrbitRocket.State
 }
 
 export const rootReducer = combineReducers<State>({
@@ -19,4 +21,5 @@ export const rootReducer = combineReducers<State>({
   launch: Launch.reducer,
   error: Error.reducer,
   requestLog: RequestLog.reducer,
+  orbitRocket: OrbitRocket.reducer,
 })

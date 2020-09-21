@@ -38,9 +38,13 @@ export type Launches<T> = T extends Methods.LAUNCHES
     }
   : never
 
+export type Rockets<T> = never
+
 export const requestConstructor: ApiRequestString<
   Methods.HISTORY | Methods.LAUNCHES | Methods.ROCKETS,
-  History<Methods.HISTORY> | Launches<Methods.LAUNCHES>
+  | History<Methods.HISTORY>
+  | Launches<Methods.LAUNCHES>
+  | Rockets<Methods.ROCKETS>
 > = (method: Methods, params) => {
   const { url, query } = params
   const urlParams = Object.values(url || {})

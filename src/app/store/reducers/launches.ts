@@ -42,7 +42,6 @@ export const reducer = (
   action: {
     type: Types
     payload?: {
-      error?: string
       data?: LaunchListItem[]
     }
   }

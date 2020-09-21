@@ -5,13 +5,13 @@ export interface LaunchesFilters {
 }
 
 export enum LaunchesActionTypes {
-  UPDATE = 'LAUNCHES_ACTION_UPDATE',
+  FETCH = 'LAUNCHES_ACTION_UPDATE',
   RESET_ERROR = 'LAUNCHES_ACTION_RESET_ERROR',
   RESET_STATE = 'LAUNCHES_ACTION_RESET_STATE',
 }
 
 export interface LaunchesActionUpdate {
-  type: LaunchesActionTypes.UPDATE
+  type: LaunchesActionTypes.FETCH
   payload: {
     page: number
     filters?: LaunchesFilters

@@ -4,6 +4,9 @@ import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
 import { usePrevious } from 'utilities/usePrevious'
 import { Spinner } from 'components/spinner/Spinner'
+import { useDispatch } from 'react-redux'
+import { DispatchType } from 'app/types'
+import { RepeatActions, RepeatActionsType } from 'actions/repeat'
 
 export interface Props<T> {
   onScrollEnd: () => void
@@ -13,8 +16,12 @@ export interface Props<T> {
 }
 
 export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
+  const repeat = useDispatch<DispatchType<RepeatActions>>()
+  const handlerClickRepeat = () => repeat({ type: RepeatActionsType.REPEAT })
   const prevData = usePrevious(data)
   const marker = useRef(null)
+  const wrapper = useRef(null)
+  const container = useRef(null)
   const handlerObserver = ([target]) => {
     if (
       target.isIntersecting &&
@@ -29,14 +36,13 @@ export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
     threshold: 1.0,
   })
 
+  const errorMessage = ``
+
   useEffect(() => {
     if ((prevData || []).length === 0 && data.length > 0 && marker.current) {
       observer.observe(marker.current)
     }
   }, [data])
-
-  const wrapper = useRef(null)
-  const container = useRef(null)
 
   return (
     <Wrapper ref={wrapper}>
@@ -45,7 +51,12 @@ export function List<T>({ onScrollEnd, data, loading, itemsRender }: Props<T>) {
         {data?.map((item, index) => itemsRender({ item, key: index }))}
         {data.length ? <div ref={marker}>&nbsp;</div> : null}
         {!data.length && !loading && (
-          <Message>Oops... We found nothing</Message>
+          <Message>
+            Oops... We found nothing (;
+            <Repeat onClick={handlerClickRepeat}>
+              Click here to repeat last request
+            </Repeat>
+          </Message>
         )}
       </Container>
     </Wrapper>
@@ -72,4 +83,10 @@ const Message = styled.div`
   color: ${colors.clementine};
   font-size: 32px;
   cursor: default;
+`
+
+const Repeat = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 5px;
 `

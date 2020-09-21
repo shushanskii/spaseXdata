@@ -47,7 +47,7 @@ describe('updateHistory saga', () => {
       },
       fetchHistory,
       {
-        type: HistoryActionTypes.UPDATE,
+        type: HistoryActionTypes.FETCH,
         payload: {
           page: 99,
         },
@@ -73,7 +73,7 @@ describe('updateHistory saga', () => {
       },
       fetchHistory,
       {
-        type: HistoryActionTypes.UPDATE,
+        type: HistoryActionTypes.FETCH,
         payload: {
           page: 99,
         },

@@ -45,7 +45,7 @@ describe('updateLaunches saga', () => {
       },
       fetchLaunches,
       {
-        type: LaunchesActionTypes.UPDATE,
+        type: LaunchesActionTypes.FETCH,
         payload: {
           page: 99,
         },
@@ -71,7 +71,7 @@ describe('updateLaunches saga', () => {
       },
       fetchLaunches,
       {
-        type: LaunchesActionTypes.UPDATE,
+        type: LaunchesActionTypes.FETCH,
         payload: {
           page: 99,
         },

@@ -31,7 +31,7 @@ export interface State {
 }
 
 const initialState: State = {
-  loading: false,
+  loading: true,
 }
 
 export const reducer = (

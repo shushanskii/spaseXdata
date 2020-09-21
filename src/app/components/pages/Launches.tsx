@@ -31,14 +31,11 @@ function LaunchesPage() {
   const { filters, page, setPage } = useContext(LaunchFiltersContext)
   const loadAction = useDispatch<DispatchType<LaunchesActionUpdate>>()
   const resetAction = useDispatch<DispatchType<LaunchesResetState>>()
-  const handlerScrollEnd = () => {
-    console.log('handlerScrollEnd')
-    setPage(page => page + 1); // eslint-disable-line
-  }
+  const handlerScrollEnd = () => setPage(page => page + 1); // eslint-disable-line
 
   useEffect(() => {
     loadAction({
-      type: LaunchesActionTypes.UPDATE,
+      type: LaunchesActionTypes.FETCH,
       payload: { filters, page: 0 },
     })
   }, [])
@@ -46,19 +43,18 @@ function LaunchesPage() {
   useEffect(() => {
     if (page > 0) {
       loadAction({
-        type: LaunchesActionTypes.UPDATE,
+        type: LaunchesActionTypes.FETCH,
         payload: { filters, page },
       })
     }
   }, [page])
 
   useEffect(() => {
-    console.log('filters changed', filters)
     if (filters) {
       resetAction({ type: LaunchesActionTypes.RESET_STATE })
       setPage(0)
       loadAction({
-        type: LaunchesActionTypes.UPDATE,
+        type: LaunchesActionTypes.FETCH,
         payload: { filters, page },
       })
     }

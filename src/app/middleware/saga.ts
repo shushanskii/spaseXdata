@@ -11,22 +11,32 @@ import {
   ErrorActionRise,
   ErrorActionTypes,
 } from 'actions/error'
+import { RepeatActionsType } from 'actions/repeat'
 import { fetchHistory } from 'middleware/saga/fetchHistory'
 import { fetchLaunches } from 'middleware/saga/fetchLaunches'
 import { resetLaunchesState } from 'middleware/saga/resetLaunchesState'
 import { fetchLaunch } from 'middleware/saga/fetchLaunch'
 import { errorRise } from 'middleware/saga/errorRise'
 import { errorClear } from 'middleware/saga/errorClear'
+import { requestLog } from 'middleware/saga/requestLog'
+import { requestRepeat } from 'middleware/saga/requestRepeat'
 
 export function* saga() {
   yield all([
+    // log/repeat
+    yield takeEvery(
+      [HistoryActionTypes.FETCH, LaunchesActionTypes.FETCH],
+      requestLog
+    ),
+    yield takeEvery(RepeatActionsType.REPEAT, requestRepeat),
+    // history
     yield takeEvery<HistoryActionUpdate>(
-      HistoryActionTypes.UPDATE,
+      HistoryActionTypes.FETCH,
       fetchHistory
     ),
     // launches sagas
     yield takeEvery<LaunchesActionUpdate>(
-      LaunchesActionTypes.UPDATE,
+      LaunchesActionTypes.FETCH,
       fetchLaunches
     ),
     yield takeEvery<LaunchesResetState>(

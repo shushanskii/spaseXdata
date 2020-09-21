@@ -21,12 +21,12 @@ export function History() {
   const handlerScrollEnd = () => setPage((page) => page + 1)
 
   useEffect(() => {
-    loadAction({ type: HistoryActionTypes.UPDATE, payload: { page: 0 } })
+    loadAction({ type: HistoryActionTypes.FETCH, payload: { page: 0 } })
   }, [])
 
   useEffect(() => {
     if (page > 0) {
-      loadAction({ type: HistoryActionTypes.UPDATE, payload: { page } })
+      loadAction({ type: HistoryActionTypes.FETCH, payload: { page } })
     }
   }, [page])
 

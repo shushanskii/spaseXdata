@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
-import { colors, MEDIA, WIDTHS } from 'app/constants'
+import { colors, MEDIA } from 'app/constants'
 import { InputText } from 'components/inputText/InputText'
 import { LaunchFiltersContext } from 'components/pages/Launches'
 import { debounce } from 'lodash'
@@ -16,6 +16,7 @@ import {
 } from 'actions/orbitRockets'
 import { State } from 'store/rootReducer'
 import { State as OrbitRocketsState } from 'store/reducers/orbitRockets'
+import { fadeIn } from 'react-animations'
 
 const DEBOUNCE_INTERVAL = 700
 
@@ -94,6 +95,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  transition: height 500ms ease-in;
 `
 const TopWrapper = styled.div`
   width: 100%;
@@ -147,13 +149,14 @@ const Manufacturer = styled(InputText)`
 
 const Orbits = styled(InputText)`
   width: 100%;
-
+  transition: width 500ms ease-in;
   ${MEDIA.lessThan('tablet')`
       margin-top: 25px;
   `}
 `
 
 const Rockets = styled(InputText)`
+  animation: 1000ms ${keyframes(fadeIn)};
   width: 100%;
   margin-left: 30px;
 

@@ -22,9 +22,9 @@ export interface HistoricalEvent {
   event_date_utc: string
   details: string
   links: {
-    reddit: string | null
-    article: string
-    wikipedia: string
+    reddit?: string
+    article?: string
+    wikipedia?: string
   }
 }
 

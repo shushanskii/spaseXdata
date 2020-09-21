@@ -23,6 +23,11 @@ export interface Launch {
   mission_patch_small: string
   video_link: string
   youtube_id: string
+  links: {
+    reddit?: string
+    article?: string
+    wikipedia?: string
+  }
 }
 
 export interface State {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import YouTube from 'react-youtube'
 import { colors } from 'app/constants'
 import { Window } from 'components/modals/components/window/Window'
@@ -12,6 +12,10 @@ import { State as LaunchState } from 'store/reducers/launch'
 import { LaunchInfoContext } from 'components/contexts/LaunchInfoContext'
 import { Spinner } from 'components/spinner/Spinner'
 import { State as ErrorState } from 'store/reducers/error'
+import { MediaLinks, MediaLinksTheme } from 'components/mediaLinks/MediaLinks'
+import { fadeIn } from 'react-animations'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShare } from '@fortawesome/free-solid-svg-icons'
 
 export function LaunchInfo() {
   const { error } = useSelector<State, ErrorState>((store) => store.error)
@@ -22,7 +26,8 @@ export function LaunchInfo() {
   const fetchAction = useDispatch<DispatchType<LaunchActionFetch>>()
   const handlerClose = () => showLaunchInfo(undefined)
 
-  const { mission_name, youtube_id, mission_patch_small, details } = data || {}
+  const { mission_name, youtube_id, mission_patch_small, details, links } =
+    data || {}
 
   useEffect(() => {
     if (!isNaN(flightNumber)) {
@@ -43,10 +48,20 @@ export function LaunchInfo() {
       </Caption>
       {data && (
         <Content>
-          <Wrapper>
+          <MediaWrapper>
+            <MediaWrapperCaption>Media:</MediaWrapperCaption>
+            <Media
+              theme={MediaLinksTheme.DARK}
+              links={links}
+              someKey={mission_name}
+            />
+            <MediaWrapperCaption>Share:</MediaWrapperCaption>
+            <ShareIcon icon={faShare} />
+          </MediaWrapper>
+          <ContentWrapper>
             {mission_patch_small && <MissionPatch src={mission_patch_small} />}
             {details && <Details>{details}</Details>}
-          </Wrapper>
+          </ContentWrapper>
           {youtube_id && (
             <VideoContainer opts={{ width: '490px' }} videoId={youtube_id} />
           )}
@@ -57,6 +72,7 @@ export function LaunchInfo() {
 }
 
 const Content = styled.div`
+  animation: 700ms ${keyframes(fadeIn)};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +85,7 @@ const Content = styled.div`
   overflow: auto;
 `
 
-const Wrapper = styled.div`
+const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -92,4 +108,32 @@ const MissionPatch = styled.img`
 const VideoContainer = styled(YouTube)`
   margin-top: 50px;
   width: 490px;
+`
+const MediaWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+`
+
+const MediaWrapperCaption = styled.div`
+  font-size: 15px;
+  font-style: italic;
+  font-weight: lighter;
+  cursor: default;
+`
+
+const Media = styled(MediaLinks)`
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`
+
+const ShareIcon = styled(FontAwesomeIcon)`
+  margin: 0 10px;
+  font-size: 18px;
 `

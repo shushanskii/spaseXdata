@@ -43,6 +43,11 @@ export function* fetchLaunch({
           video_link: data.links.video_link,
           youtube_id: data.links.youtube_id,
           mission_patch_small: data.links.mission_patch_small,
+          links: {
+            reddit: data.links.reddit_media,
+            article: data.links.article_link,
+            wikipedia: data.links.wikipedia,
+          },
         },
       },
     })

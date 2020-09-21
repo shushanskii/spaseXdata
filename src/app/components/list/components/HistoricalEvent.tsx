@@ -8,7 +8,7 @@ import {
   Date,
   Description,
 } from 'components/list/components/components/Elements'
-import { HistoricalEventsLinks } from 'components/list/components/components/HistoricalEventsLinks'
+import { MediaLinks } from 'components/mediaLinks/MediaLinks'
 import styled from 'styled-components'
 
 interface Props {
@@ -32,10 +32,7 @@ export function HistoricalEvent({
           <Date>
             {year} {time}
           </Date>
-          <HistoricalEventsLinks
-            links={links}
-            event_date_utc={event_date_utc}
-          />
+          <MediaLinks links={links} someKey={event_date_utc} />
         </AdditionalInfo>
       </Title>
     </Container>

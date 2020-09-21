@@ -11,23 +11,31 @@ enum LinksResources {
   WIKIPEDIA = 'wikipedia',
 }
 
+export enum MediaLinksTheme {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+}
+
 interface Props {
-  event_date_utc: string
+  theme?: MediaLinksTheme
+  className?: string
+  someKey: string
   links: {
-    [key in LinksResources]: string
+    [key in LinksResources]?: string
   }
 }
 
-export function HistoricalEventsLinks({ links, event_date_utc }: Props) {
+export function MediaLinks({ links, someKey, className, theme }: Props) {
   return (
-    <Container>
+    <Container className={className}>
       {Object.entries(links)
         .filter(([, link]) => !!link)
         .map(([resources, link]) => (
           <Link
+            theme={theme}
             resource={resources as LinksResources}
             link={link}
-            key={`${event_date_utc}.${resources}`}
+            key={`${someKey}.${resources}`}
           />
         ))}
     </Container>
@@ -35,31 +43,23 @@ export function HistoricalEventsLinks({ links, event_date_utc }: Props) {
 }
 
 interface LinkProps {
+  theme?: MediaLinksTheme
   resource: LinksResources
   link: string
 }
 
-function Link({ resource, link }: LinkProps) {
-  switch (resource) {
-    case LinksResources.ARTICLE:
-      return (
-        <LinkElement href={link} target={'_blank'}>
-          <Icon icon={faFile} />
-        </LinkElement>
-      )
-    case LinksResources.REDDIT:
-      return (
-        <LinkElement href={link} target={'_blank'}>
-          <Icon icon={faRedditAlien} />
-        </LinkElement>
-      )
-    case LinksResources.WIKIPEDIA:
-      return (
-        <LinkElement href={link} target={'_blank'}>
-          <Icon icon={faWikipediaW} />
-        </LinkElement>
-      )
-  }
+const Icons = {
+  [LinksResources.ARTICLE]: faFile,
+  [LinksResources.REDDIT]: faRedditAlien,
+  [LinksResources.WIKIPEDIA]: faWikipediaW,
+}
+
+function Link({ resource, link, theme }: LinkProps) {
+  return (
+    <LinkElement theme={theme} href={link} target={'_blank'}>
+      <Icon icon={Icons[resource]} />
+    </LinkElement>
+  )
 }
 
 const Container = styled.div`
@@ -67,8 +67,6 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1px;
-  margin-left: 26px;
 `
 
 const Icon = styled(FontAwesomeIcon)`
@@ -76,7 +74,7 @@ const Icon = styled(FontAwesomeIcon)`
   font-size: 18px;
 `
 
-const LinkElement = styled.a`
+const LinkElement = styled.a<{ theme?: MediaLinksTheme }>`
     display: inline-block;
     cursor: pointer;
     font-family: Avenir-Roman, sans-serif;
@@ -86,15 +84,17 @@ const LinkElement = styled.a`
     font-style: normal;
     letter-spacing: normal;
     text-decoration: none;
-    color: ${colors.clementine};
-    color: ${colors.osloGray};
+    color: ${({ theme }) =>
+      theme === MediaLinksTheme.DARK ? colors.black : colors.osloGray};
     &:visited {
-        color: ${colors.osloGray};
+        color: ${({ theme }) =>
+          theme === MediaLinksTheme.DARK ? colors.black : colors.osloGray};
         text-decoration: none;
     }
 
     &:hover,
     &:active {
-        color: ${colors.white};
+        color: ${({ theme }) =>
+          theme === MediaLinksTheme.DARK ? colors.osloGray : colors.white};
         text-decoration: underline;
 `

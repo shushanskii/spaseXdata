@@ -65,7 +65,6 @@ const Container = styled(Modal)`
   top: 50%;
   transform: translate(-50%, -50%);
   outline: none;
-  transition: max-height 500ms ease-out;
 `
 
 const Wrapper = styled.div`

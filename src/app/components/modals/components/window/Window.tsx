@@ -6,6 +6,7 @@ import { Close } from 'components/modals/components/window/components/Close'
 import hexToRgba from 'hex-to-rgba'
 
 interface Props {
+  className?: string
   visible: boolean
   onClose?: (...args: any[]) => void
 }
@@ -23,6 +24,7 @@ export function Window({
   children,
   visible,
   onClose,
+  className,
 }: React.PropsWithChildren<Props>) {
   const handlerClickWrapper = (e: React.MouseEvent<HTMLDivElement>) =>
     e.stopPropagation()
@@ -35,6 +37,7 @@ export function Window({
 
   return (
     <Container
+      className={className}
       isOpen={visible}
       style={style}
       onRequestClose={handlerModalClose}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import YouTube from 'react-youtube'
 import { colors } from 'app/constants'
@@ -16,8 +16,10 @@ import { MediaLinks, MediaLinksTheme } from 'components/mediaLinks/MediaLinks'
 import { fadeIn } from 'react-animations'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShare } from '@fortawesome/free-solid-svg-icons'
+import { Share } from 'components/modals/Share'
 
 export function LaunchInfo() {
+  const [shareVisible, setShareVisible] = useState<boolean>(false)
   const { error } = useSelector<State, ErrorState>((store) => store.error)
   const { flightNumber, showLaunchInfo } = useContext(LaunchInfoContext)
   const { loading, data } = useSelector<State, LaunchState>(
@@ -25,7 +27,8 @@ export function LaunchInfo() {
   )
   const fetchAction = useDispatch<DispatchType<LaunchActionFetch>>()
   const handlerClose = () => showLaunchInfo(undefined)
-
+  const handlerShareClick = () => setShareVisible(true)
+  const handlerShareClose = () => setShareVisible(false)
   const { mission_name, youtube_id, mission_patch_small, details, links } =
     data || {}
 
@@ -39,35 +42,40 @@ export function LaunchInfo() {
   }, [flightNumber])
 
   return (
-    <Window visible={!isNaN(flightNumber) && !error} onClose={handlerClose}>
-      {loading && (
-        <Spinner color={colors.clementine} top={'5px'} left={'5px'} />
-      )}
-      <Caption>
-        {mission_name ? mission_name : 'Loading launch info...'}
-      </Caption>
-      {data && (
-        <Content>
-          <MediaWrapper>
-            <MediaWrapperCaption>Media:</MediaWrapperCaption>
-            <Media
-              theme={MediaLinksTheme.DARK}
-              links={links}
-              someKey={mission_name}
-            />
-            <MediaWrapperCaption>Share:</MediaWrapperCaption>
-            <ShareIcon icon={faShare} />
-          </MediaWrapper>
-          <ContentWrapper>
-            {mission_patch_small && <MissionPatch src={mission_patch_small} />}
-            {details && <Details>{details}</Details>}
-          </ContentWrapper>
-          {youtube_id && (
-            <VideoContainer opts={{ width: '490px' }} videoId={youtube_id} />
-          )}
-        </Content>
-      )}
-    </Window>
+    <>
+      <Window visible={!isNaN(flightNumber) && !error} onClose={handlerClose}>
+        {loading && (
+          <Spinner color={colors.clementine} top={'5px'} left={'5px'} />
+        )}
+        <Caption>
+          {mission_name ? mission_name : 'Loading launch info...'}
+        </Caption>
+        {data && (
+          <Content>
+            <MediaWrapper>
+              <MediaWrapperCaption>Media:</MediaWrapperCaption>
+              <Media
+                theme={MediaLinksTheme.DARK}
+                links={links}
+                someKey={mission_name}
+              />
+              <MediaWrapperCaption>Share:</MediaWrapperCaption>
+              <ShareIcon onClick={handlerShareClick} icon={faShare} />
+            </MediaWrapper>
+            <ContentWrapper>
+              {mission_patch_small && (
+                <MissionPatch src={mission_patch_small} />
+              )}
+              {details && <Details>{details}</Details>}
+            </ContentWrapper>
+            {youtube_id && (
+              <VideoContainer opts={{ width: '490px' }} videoId={youtube_id} />
+            )}
+          </Content>
+        )}
+      </Window>
+      <Share visible={shareVisible} onClose={handlerShareClose} />
+    </>
   )
 }
 
@@ -136,4 +144,5 @@ const Media = styled(MediaLinks)`
 const ShareIcon = styled(FontAwesomeIcon)`
   margin: 0 10px;
   font-size: 18px;
+  cursor: pointer;
 `

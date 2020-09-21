@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from 'app/constants'
@@ -17,7 +17,10 @@ import {
 import { State } from 'store/rootReducer'
 import { State as OrbitRocketsState } from 'store/reducers/orbitRockets'
 
+const DEBOUNCE_INTERVAL = 700
+
 export function Filters() {
+  const [orbit, setOrbit] = useState<string>()
   const { loading, data } = useSelector<State, OrbitRocketsState>(
     (store) => store.orbitRocket
   )
@@ -25,7 +28,7 @@ export function Filters() {
   const { setFilters } = useContext(LaunchFiltersContext)
 
   const setManufacturer = useCallback(
-    debounce((value) => setFilters({ manufacturer: value }), 700),
+    debounce((value) => setFilters({ manufacturer: value }), DEBOUNCE_INTERVAL),
     []
   )
   const loadOrbitRockets = useDispatch<DispatchType<OrbitRocketsActionFetch>>()
@@ -41,11 +44,10 @@ export function Filters() {
     }
   }
 
-  console.log('OrbitRocketsState', data)
+  const handlerOrbitSelect = (value: string) => setOrbit(value)
 
-  const handlerOrbitChange = (value) => {
-    console.log('handlerOrbitChange', value)
-  }
+  const handlerRocketSelect = (rocket_name: string) =>
+    setFilters({ rocket_name })
 
   useEffect(() => {
     loadOrbitRockets({ type: OrbitRocketsActionTypes.FETCH })
@@ -54,17 +56,23 @@ export function Filters() {
   return (
     <Container>
       <DateSelector onDatesChange={handlerDatesChange} />
-      <Wrapper>
-        <Input
-          placeholder={'Manufacturer'}
-          onChange={handlerManufacturerChange}
-        />
+      <Input
+        placeholder={'Manufacturer'}
+        onChange={handlerManufacturerChange}
+      />
+      <Select
+        disabled={loading}
+        placeholder={'Possible Orbit'}
+        onSelect={handlerOrbitSelect}
+        options={Object.keys(data).map((key) => ({ key, value: key }))}
+      />
+      {orbit && (
         <Select
-          placeholder={'Possible Orbit'}
-          onSelect={handlerOrbitChange}
-          options={Object.keys(data).map((key) => ({ key, value: key }))}
+          placeholder={'Rocket'}
+          onSelect={handlerRocketSelect}
+          options={data[orbit].map((value) => ({ key: value, value }))}
         />
-      </Wrapper>
+      )}
     </Container>
   )
 }
@@ -90,11 +98,9 @@ const Wrapper = styled.div`
 `
 
 const Input = styled(InputText)`
-  width: 45%;
-  margin-left: 10px;
+  width: 100%;
 `
 
 const Select = styled(InputText)`
-  width: 45%;
-  margin-right: 10px;
+  width: 100%;
 `

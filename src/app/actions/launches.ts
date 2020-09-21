@@ -2,6 +2,7 @@ export interface LaunchesFilters {
   manufacturer?: string
   start?: string
   end?: string
+  rocket_name?: string
 }
 
 export enum LaunchesActionTypes {

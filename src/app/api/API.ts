@@ -40,9 +40,13 @@ const fetchLaunch = (flight_number: number) =>
 
 const fetchRockets = () => request(requestConstructor(Methods.ROCKETS, {}))
 
+const share = (data: any) =>
+  request('http://dummy.restapiexample.com/api/v1/create', 'POST', data)
+
 export const API = {
   fetchHistory,
   fetchLaunches,
   fetchLaunch,
   fetchRockets,
+  share,
 }

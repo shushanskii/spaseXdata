@@ -9,13 +9,13 @@ import { Error } from 'components/modals/Error'
 export const App = () => {
   return (
     <>
-      <Error />
       <GlobalStyle />
       <Switch>
         <Route path={'/history'} component={History} />
         <Route path={'/launches'} component={Launches} />
         <Route path={'/'} exact={true} component={Home} />
       </Switch>
+      <Error />
     </>
   )
 }

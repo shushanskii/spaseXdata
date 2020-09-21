@@ -5,6 +5,11 @@ import { Caption } from 'components/modals/components/window/components/Caption'
 import { colors } from 'app/constants'
 import { InputText } from 'components/inputText/InputText'
 import { Spinner } from 'components/spinner/Spinner'
+import { ShareActionSend, ShareActionTypes, ShareType } from 'actions/share'
+import { useDispatch, useSelector } from 'react-redux'
+import { DispatchType } from 'app/types'
+import { State } from 'store/rootReducer'
+import { State as ShareState } from 'store/reducers/share'
 
 interface Props {
   visible: boolean
@@ -12,30 +17,41 @@ interface Props {
 }
 
 const shareInfo = [
-  { key: 'Media links', value: 'Media links' },
-  { key: 'Details', value: 'Details' },
+  { key: ShareType.MEDIA, value: 'Media links' },
+  { key: ShareType.DETAILS, value: 'Details' },
 ]
 
 export function Share({ visible, onClose }: Props) {
-  const [info, setInfo] = useState<string>()
+  const [share, setShare] = useState<ShareType>()
+  const { loading, message } = useSelector<State, ShareState>(
+    (store) => store.share
+  )
+  const send = useDispatch<DispatchType<ShareActionSend>>()
   const handlerClose = () => onClose()
-  const handlerShareSelect = (value: string) => setInfo(value)
+  const handlerShareSelect = (value: ShareType) => setShare(value)
+  const handlerSendClick = () => {
+    send({ type: ShareActionTypes.SEND, payload: { share } })
+  }
 
   return (
     <DarkWindow visible={visible} onClose={handlerClose}>
-      <Spinner color={colors.grenadier} top={'5px'} left={'5px'} />
+      {loading && <Spinner color={colors.grenadier} top={'5px'} left={'5px'} />}
       <LightCaption>Share</LightCaption>
       <Content>
         <ShareSelect
           placeholder={'What do you want to share?'}
           onSelect={handlerShareSelect}
           options={shareInfo}
+          disabled={loading}
         />
         <Message>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-          volutpat euismod nulla, vel rutrum felis pulvinar vel.
+          {message
+            ? message
+            : `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat euismod nulla, vel rutrum felis pulvinar vel.`}
         </Message>
-        <ShareButton disabled={!info}>Send</ShareButton>
+        <ShareButton disabled={!share || loading} onClick={handlerSendClick}>
+          Send
+        </ShareButton>
       </Content>
     </DarkWindow>
   )

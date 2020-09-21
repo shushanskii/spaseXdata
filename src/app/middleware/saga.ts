@@ -15,6 +15,7 @@ import {
   OrbitRocketsActionFetch,
   OrbitRocketsActionTypes,
 } from 'actions/orbitRockets'
+import { ShareActionSend, ShareActionTypes } from 'actions/share'
 import { RepeatActionsType } from 'actions/repeat'
 import { fetchHistory } from 'middleware/saga/fetchHistory'
 import { fetchLaunches } from 'middleware/saga/fetchLaunches'
@@ -25,6 +26,7 @@ import { errorClear } from 'middleware/saga/errorClear'
 import { requestLog } from 'middleware/saga/requestLog'
 import { requestRepeat } from 'middleware/saga/requestRepeat'
 import { fetchOrbitRockets } from 'middleware/saga/fetchOrbitRockets'
+import { sendShare } from 'middleware/saga/sendShare'
 
 export function* saga() {
   yield all([
@@ -52,6 +54,8 @@ export function* saga() {
       OrbitRocketsActionTypes.FETCH,
       fetchOrbitRockets
     ),
+    // share
+    yield takeEvery<ShareActionSend>(ShareActionTypes.SEND, sendShare),
     // errors
     yield takeEvery<ErrorActionRise>(ErrorActionTypes.RISE_ERROR, errorRise),
     yield takeEvery<ErrorActionClear>(ErrorActionTypes.CLEAR_ERROR, errorClear),

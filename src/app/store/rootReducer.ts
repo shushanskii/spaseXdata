@@ -5,6 +5,7 @@ import * as Launch from 'store/reducers/launch'
 import * as Error from 'store/reducers/error'
 import * as RequestLog from 'store/reducers/requestLog'
 import * as OrbitRocket from 'store/reducers/orbitRockets'
+import * as Share from 'store/reducers/share'
 
 export interface State {
   history: History.State
@@ -13,6 +14,7 @@ export interface State {
   error: Error.State
   requestLog: RequestLog.State
   orbitRocket: OrbitRocket.State
+  share: Share.State
 }
 
 export const rootReducer = combineReducers<State>({
@@ -22,4 +24,5 @@ export const rootReducer = combineReducers<State>({
   error: Error.reducer,
   requestLog: RequestLog.reducer,
   orbitRocket: OrbitRocket.reducer,
+  share: Share.reducer,
 })

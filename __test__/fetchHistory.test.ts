@@ -36,7 +36,7 @@ const errorDispatched = [
   },
 ]
 
-describe('updateHistory saga', () => {
+describe('fetchHistory saga', () => {
   it('should call api and dispatch load start and success action', async () => {
     const request = jest
       .spyOn(req, 'request')

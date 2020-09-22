@@ -1,6 +1,6 @@
 import { fetchLaunches } from 'middleware/saga/fetchLaunches'
 import { LaunchesActionTypes } from 'actions/launches'
-import * as req from 'api/helpers/request'
+import { API } from 'api/API'
 import { runSaga } from 'redux-saga'
 // @ts-ignore
 import dummyLaunches from './assetes/dummyLaunches.json'
@@ -39,10 +39,10 @@ const errorDispatched = [
   },
 ]
 
-describe('updateLaunches saga', () => {
+describe('fetchLaunches saga', () => {
   it('should call api and dispatch load start and success action', async () => {
     const request = jest
-      .spyOn(req, 'request')
+      .spyOn(API, 'fetchLaunches')
       .mockImplementation(() => Promise.resolve(dummyLaunches))
     const dispatched = []
     const result = await runSaga(
@@ -59,16 +59,14 @@ describe('updateLaunches saga', () => {
     )
 
     expect(request).toHaveBeenCalledTimes(1)
-    expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/launches/?limit=10&offset=990'
-    )
+    expect(request).toHaveBeenCalledWith({ page: 99 })
     expect(dispatched).toEqual(successDispatched)
     request.mockClear()
   })
 
   it('should call api and dispatch load start and error action', async () => {
     const request = jest
-      .spyOn(req, 'request')
+      .spyOn(API, 'fetchLaunches')
       .mockImplementation(() => Promise.reject('SOME ERROR'))
     const dispatched = []
     await runSaga(
@@ -85,9 +83,7 @@ describe('updateLaunches saga', () => {
     )
 
     expect(request).toHaveBeenCalledTimes(1)
-    expect(request).toHaveBeenCalledWith(
-      'https://api.spacexdata.com/v3/launches/?limit=10&offset=990'
-    )
+    expect(request).toHaveBeenCalledWith({ page: 99 })
     expect(dispatched).toEqual(errorDispatched)
     request.mockClear()
   })

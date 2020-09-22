@@ -1,6 +1,6 @@
-import { Meta } from '@storybook/react/types-6-0'
 import React from 'react'
-import { List, Props } from 'components/list/List'
+import { Meta } from '@storybook/react/types-6-0'
+import { List } from 'components/list/List'
 import { HistoricalEvent } from 'components/list/components/HistoricalEvent'
 import { Launch } from 'components/list/components/Launch'
 import { Provider } from 'react-redux'
@@ -48,7 +48,7 @@ History.args = {
   ],
 }
 
-export const Launches = (props: Props<any>) => (
+export const Launches = (props) => (
   <Provider store={configureStore()}>
     <List {...props} />
   </Provider>

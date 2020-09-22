@@ -17,7 +17,6 @@ export const DateSelectorTheme = {
     inputActiveBoxShadow: `0px 0px 5px 2px ${colors.white}`,
     inputWidth: '100%',
 
-    datepickerWidth: '1000px',
     dateRangeStartDateInputPadding: '0 16px',
     dateRangeEndDateInputPadding: '0 16px',
     dateRangeGridTemplateColumns: ['100%', '117px 30px 117px'],

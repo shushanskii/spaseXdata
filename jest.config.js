@@ -6,6 +6,7 @@ module.exports = {
   clearMocks: true,
   automock: false,
   setupFiles: [
+    "core-js",
     "./setupJest.js"
   ],
   globals: {

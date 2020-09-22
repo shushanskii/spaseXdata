@@ -9,12 +9,6 @@ import { errorRise } from 'middleware/saga/errorRise'
 import { ErrorActionTypes } from 'actions/error'
 import { API } from 'api/API'
 
-const groupBy = (xs, key) =>
-  xs.reduce((rv, x) => {
-    ;(rv[x[key]] = rv[x[key]] || []).push(x)
-    return rv
-  }, {})
-
 export function* fetchOrbitRockets() {
   yield put<LoadStart<Types.LOAD_START>>({
     type: Types.LOAD_START,

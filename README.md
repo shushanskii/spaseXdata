@@ -1,5 +1,8 @@
 # SpaceXData
 
+**DEMO PAGE**
+[shushanskii.github.io](https://shushanskii.github.io/)
+
 ## Run commands
 
 - **npm run start** - run development mode
@@ -52,6 +55,7 @@ Each coroner directory described as alias in webpack.config and tsconfig
 
 ## Known issues
 
+0. _Application doesn't work in IE_
 1. DatePicker - no reset controls
 2. Linked lists Orbits and Rockets - not all corner case described
 3. Not all tests described
